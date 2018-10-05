@@ -399,7 +399,8 @@ var _Navigator = (function () {
                         }
                         if(_ModuleCommon.GetPageDetailData().EmbedSettings !=undefined)
                         {
-                            setReader("progressdiv");
+                            setReader("inputtext");
+                            
                         }
                         $("#hintdiv").show();
                         if(_currentPageObject.hideHint !=undefined && _currentPageObject.hideHint)
