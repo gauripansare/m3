@@ -113,6 +113,10 @@ var _ModuleCommon = (function () {
                 }
             }
             this.ShowFeedbackReviewMode();
+            if(_Navigator.GetCurrentPage().pageId == "p30")
+            {
+                $(".activityimg").attr("src","assets/images/m3-s7-p3-new.jpg")
+            }
             $(".divHotSpotCommon").addClass("disabled")
 
         },
@@ -540,7 +544,10 @@ var _ModuleCommon = (function () {
                 // this.SetFeedbackTop()
                 $('html,body').animate({ scrollTop: document.body.scrollHeight }, 1000, function () { });
             });
-
+            if(_Navigator.GetCurrentPage().pageId == "p30")
+            {
+                $(".activityimg").attr("src","assets/images/m3-s7-p3-new.jpg")
+            }
             this.EnableNext();
         },
         HotspotNext: function () {
