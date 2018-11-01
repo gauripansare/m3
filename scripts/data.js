@@ -22,8 +22,8 @@ var _PData = {
                 {
                     HotspotId: 1,
                     width: "5.528510050251256%",
-                    height: "7.370184254606365%",
-                    top: "92.62981574539364%",
+                    height: "5.370184254606365%",
+                    top: "93.62981574539364%",
                     left: "45.01670854271357%",
                     widthPX: "44.00694px",
                     heightPX: "49px",
@@ -81,8 +81,8 @@ var _PData = {
                 {
                     HotspotId: 1,
                     width: "4.1457286432160805%",
-                    height: "10.887772194304858%",
-                    top: "12.90073043337619%",
+                    height: "9.887772194304858%",
+                    top: "13.90073043337619%",
                     left: "62.480370603015075%",
                     widthPX: "34.00694px",
                     heightPX: "69px",
@@ -118,6 +118,7 @@ var _PData = {
                   topPX: "184.01042938232422px",
                   leftPX: "356.33685302734375px",
                   action: "next",
+                  accessText: "Bidsforkids folder",
                   eventName: "dblclick",
                   "GroupName": "grp2"
                 }
@@ -309,6 +310,7 @@ var _PData = {
                     heightPX: "32px",
                     topPX: "371px",
                     leftPX: "70.484375px",
+                    accessText: "USB flash drive (F:)",
                     action: "next",
                     "GroupName": "grp9"
                 },
@@ -323,6 +325,7 @@ var _PData = {
                     topPX: "326px",
                     leftPX: "240.5px",
                     action: "next",
+                    accessText: "USB flash drive (F:)",
                     eventName:"dblclick",
                     "GroupName": "grp9"
                 }
@@ -337,12 +340,13 @@ var _PData = {
                     width: "12.311557788944723%",
                     height: "6.365159128978225%",
                     top: "23.44539363484087%",
-                    left: "42.5251256281407%",
+                    left: "44.725126%",
                     widthPX: "98px",
                     heightPX: "38px",
                     topPX: "139.96875px",
                     leftPX: "338.5px",
                     action: "next",
+                    accessText: "sort by file type",
                     "GroupName": "grp9",
                     "ActionName": "hotpot"
                 }
@@ -362,6 +366,7 @@ var _PData = {
                     heightPX: "26px",
                     topPX: "165px",
                     leftPX: "236.5px",
+                    accessText: "select file 76244510",
                     action: "next",
                     "GroupName": "grp10"
                 }
@@ -382,6 +387,7 @@ var _PData = {
                   topPX: "72px",
                   leftPX: "262.5px",
                   action: "next",
+                  accessText: "rename file",
                   "GroupName": "grp10"
                 }
               ]
@@ -412,6 +418,7 @@ var _PData = {
                   heightPX: "97px",
                   topPX: "147.984375px",
                   leftPX: "367.5px",
+                  accessText: "select Johns folder",
                   action: "next",
                   "GroupName": "grp12"
                 }
@@ -431,6 +438,7 @@ var _PData = {
                   heightPX: "18px",
                   topPX: "27px",
                   leftPX: "271.5px",
+                  accessText: "share",
                   action: "next",
                   "GroupName": "grp12"
                 }
@@ -452,6 +460,7 @@ var _PData = {
                   leftPX: "253.5px",
                   action: "feedback",
                   feedbackurl:"feedbackp30.htm",
+                  accessText: "zip folder",
                   "GroupName": "grp12",
                   "ActionName": "hotspot"
                 }

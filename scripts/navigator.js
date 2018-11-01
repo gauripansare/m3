@@ -1,11 +1,14 @@
 ﻿//This api will contain navigation logic and page load.
 //It will also handle the question navigation if the page is having multiple questions.
 var _Navigator = (function () {
+    var packageType = "presenter";//presenter/scorm/revel
     var _currentPageId = "";
     var _currentPageObject = {};
     var progressLevels = [35];
     var totalsimscore = 18;
-    var presentermode = false;
+    //var presentermode = false;
+    var bookmarkpageid = "";
+    var quizpageid = "p31";
     var _NData = {
         "p1": {
             pageId: "p1",
@@ -21,9 +24,8 @@ var _Navigator = (function () {
             prevPageId: "p1",
             nextPageId: "p3",
             dataurl: "p2.htm",           
-            hasActivity: false,
-            isAnswered :true
-
+            hasActivity: false,          
+            accessText: "File System Video"
 
         },
         "p3": {
@@ -33,7 +35,7 @@ var _Navigator = (function () {
             dataurl: "p3.htm",
             hinturl: "hintp3.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop"
         },
         "p4": {
             pageId: "p4",
@@ -42,7 +44,7 @@ var _Navigator = (function () {
             dataurl: "p4.htm",
             hinturl: "hintp4.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore Window open"
         },
         "p5": {
             pageId: "p5",
@@ -51,7 +53,7 @@ var _Navigator = (function () {
             dataurl: "p5.htm",
             hinturl: "hintp5.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore Document Window open"
         },
         "p6": {
             pageId: "p6",
@@ -60,7 +62,7 @@ var _Navigator = (function () {
             dataurl: "p6.htm",
             hinturl: "hintp6.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window open."
         },
         "p7": {
             pageId: "p7",
@@ -69,7 +71,7 @@ var _Navigator = (function () {
             dataurl: "p7.htm",
             hinturl: "hintp7.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore Window open"
         },
         "p8": {
             pageId: "p8",
@@ -78,7 +80,7 @@ var _Navigator = (function () {
             dataurl: "p8.htm",
             hinturl: "hintp8.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents bidsforkids window open."
         },
         "p9": {
             pageId: "p9",
@@ -87,7 +89,7 @@ var _Navigator = (function () {
             dataurl: "p9.htm",
             hinturl: "hintp9.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window open."
         },
         "p10": {
             pageId: "p10",
@@ -96,7 +98,7 @@ var _Navigator = (function () {
             dataurl: "p10.htm",
             hinturl: "hintp10.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window open."
         },
         "p11": {
             pageId: "p11",
@@ -105,7 +107,7 @@ var _Navigator = (function () {
             dataurl: "p11.htm",
             hinturl: "hintp11.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window open."
         },
         "p12": {
             pageId: "p12",
@@ -114,7 +116,7 @@ var _Navigator = (function () {
             dataurl: "p12.htm",
             hinturl: "hintp12.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window open."
         },
         "p13": {
             pageId: "p13",
@@ -123,7 +125,7 @@ var _Navigator = (function () {
             dataurl: "p13.htm",
             hinturl: "hintp13.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window open."
         },
         "p14": {
             pageId: "p14",
@@ -132,7 +134,7 @@ var _Navigator = (function () {
             dataurl: "p14.htm",
             hinturl: "hintp14.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore Window open"
         },
         "p15": {
             pageId: "p15",
@@ -141,7 +143,7 @@ var _Navigator = (function () {
             dataurl: "p15.htm",
             hinturl: "hintp15.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with Search results in this PC window open"
         },
         "p16": {
             pageId: "p16",
@@ -150,7 +152,7 @@ var _Navigator = (function () {
             dataurl: "p16.htm",
             hinturl: "hintp16.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window open"
         },
         "p17": {
             pageId: "p17",
@@ -159,7 +161,7 @@ var _Navigator = (function () {
             dataurl: "p17.htm",
             hinturl: "hintp17.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents  BFK_John window open"
         },
         "p18": {
             pageId: "p18",
@@ -168,7 +170,7 @@ var _Navigator = (function () {
             dataurl: "p18.htm",
             hinturl: "hintp18.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents BFK_John window open"
         },
         "p19": {
             pageId: "p19",
@@ -177,7 +179,7 @@ var _Navigator = (function () {
             dataurl: "p19.htm",
             hinturl: "hintp19.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents BFK_John window open"
         },
         "p20": {
             pageId: "p20",
@@ -186,7 +188,7 @@ var _Navigator = (function () {
             dataurl: "p20.htm",
             hinturl: "hintp20.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents BFK_John window open"
         },
         "p21": {
             pageId: "p21",
@@ -195,7 +197,7 @@ var _Navigator = (function () {
             dataurl: "p21.htm",
             hinturl: "hintp21.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents BFK_John window open"
         },
         "p22": {
             pageId: "p22",
@@ -204,7 +206,7 @@ var _Navigator = (function () {
             dataurl: "p22.htm",
             hinturl: "hintp22.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore Window open"
         },
         "p23": {
             pageId: "p23",
@@ -213,7 +215,7 @@ var _Navigator = (function () {
             dataurl: "p23.htm",
             hinturl: "hintp23.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore USB(F:) window open"
         },
         "p24": {
             pageId: "p24",
@@ -222,7 +224,7 @@ var _Navigator = (function () {
             dataurl: "p24.htm",
             hinturl: "hintp24.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore USB(F:) window open"
         },
         "p25": {
             pageId: "p25",
@@ -231,7 +233,7 @@ var _Navigator = (function () {
             dataurl: "p25.htm",
             hinturl: "hintp25.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore USB(F:) window open"
         },
         "p26": {
             pageId: "p26",
@@ -240,7 +242,7 @@ var _Navigator = (function () {
             dataurl: "p26.htm",
             hinturl: "hintp26.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore USB(F:) window open"
         },
         "p27": {
             pageId: "p27",
@@ -249,7 +251,7 @@ var _Navigator = (function () {
             dataurl: "p27.htm",
             hinturl: "hintp27.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore USB(F:) window open"
         },
         "p28": {
             pageId: "p28",
@@ -258,7 +260,7 @@ var _Navigator = (function () {
             dataurl: "p28.htm",
             hinturl: "hintp28.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window open"
         },
         "p29": {
             pageId: "p29",
@@ -267,7 +269,7 @@ var _Navigator = (function () {
             dataurl: "p29.htm",
             hinturl: "hintp29.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window open"
         },
         "p30": {
             pageId: "p30",
@@ -276,20 +278,9 @@ var _Navigator = (function () {
             dataurl: "p30.htm",
             hinturl: "hintp30.htm",
             hasActivity: true,
-
+            accessText:"Windows Desktop with File Explore documents window with share tab open"
         },
-        // "p31": {
-        //     pageId: "p30",
-        //     prevPageId: "p29",
-        //     nextPageId: "p31",
-        //     dataurl: "p30.htm",
-        //     hinturl: "hintp30.htm",
-        //     hasActivity: true,
-        //     isLastPage:true,
-
-        // },
-        
-         "p31":{
+        "p31":{
             pageId: "p31",
             prevPageId: "p30",
             nextPageId: "",
@@ -315,9 +306,18 @@ var _Navigator = (function () {
             $("#header-title h1").hide()
             $("#header-title").addClass("startpage");
         }
+        _ModuleCommon.AppendCss();
+        if (_currentPageObject.accessText != undefined) {
+            $(".activityimg").attr("alt", _currentPageObject.accessText);
+        }
         _ModuleCommon.OnPageLoad();
-
-
+        if (_Navigator.IsPresenterMode()) {
+            $("#linknext").k_enable();
+            $(".start-btn").k_disable();
+        }
+        if ((_currentPageObject.pageId == "p2") && (iOS || isSafari)) {
+            $(".activityvideo").attr("controls", "true");
+        }
     }
     return {
         Get: function () {
@@ -325,26 +325,37 @@ var _Navigator = (function () {
         },
         Start: function () {
             this.LoadPage("p1");
+            if (this.IsPresenterMode()) {
+                _ModuleCommon.AppendFooter();
+            }
         },
         LoadPage: function (pageId, jsonObj) {
+             $(".hintcontainer").hide()
+            if (_Navigator.IsRevel() && _currentPageId !=undefined && _currentPageId !="") {
+               LifeCycleEvents.OnUnloadFromPlayer()
+            }
+            bookmarkpageid = pageId;
             if (jsonObj == undefined) {
                 jsonObj = {};
             }
             _currentPageId = pageId;           
             _currentPageObject = _NData[_currentPageId]
-            if(_currentPageObject.hasActivity == undefined){
+            if(_currentPageObject.hasActivity == undefined || _currentPageObject.hasActivity == false){
                 this.SetPageStatus(true);
             }
             this.UpdateProgressBar();
+            _currentPageObject = _NData[_currentPageId]
             $("#header-progress").show();
             $("#header-title").show();
             $("footer").show();
-
+            $('html,body').css({ scrollTop: 0 })
             if (_currentPageObject.isStartPage != undefined && _currentPageObject.isStartPage) {
                 $("#linkprevious").k_disable();
                 $("#linknext").k_enable();
                 $("footer").hide();
                 $("#header-progress").hide();
+                if (this.IsPresenterMode())
+                    _ModuleCommon.AppendFooter();
 
             }
            
@@ -362,55 +373,70 @@ var _Navigator = (function () {
 
             _currentPageObject.isVisited = true;
 
-            var pageUrl = _Settings.dataRoot + _currentPageObject.dataurl + _Caching.GetUrlExtension();;
+            var pageUrl = _Settings.dataRoot + _currentPageObject.dataurl + _Caching.GetUrlExtension();
             if (_currentPageObject.pageId == "p2") { // temporary fix
-                $("#progressdiv").css("margin-left", "-20px")
+                $("#progressdiv").css("margin-left", "-20px")               
             }
             else
-            {
+            {               
                 $("#progressdiv").css("margin-left", "-15px")
+            }
+            if (_Navigator.GetCurrentPage().pageId == "p30" && ( _Navigator.IsAnswered() || _Navigator.IsPresenterMode())) {
+                $(".activityimg").attr("src", "assets/images/m3-s7-p3-new.jpg")
             }
             if (_currentPageObject.isStartPage) {
                 $(".main-content").load(pageUrl, function () {
-                    OnPageLoad();                   
-                    setReader("header1");
-                    _NData[_currentPageObject.pageId].isLoaded = true;
-
+                    OnPageLoad();
+                    //setReader("header1");
+                    $("#header1").focus();
                 });
             } else {
                 $(".main-content").fadeTo(250, 0.25, function () {
                     $(".main-content").load(pageUrl, function () {
                         $(this).fadeTo(600, 1)
-                        OnPageLoad();
-                        if(_currentPageId=="p31")//  change to assessment id
-                        {
-                            showQuestion();
+                        if ($(".activityimg").length > 0) {
+                            $('.activityimg').load(function () {
+                                OnPageLoad();
+                                //console.log("loaded"+_currentPageId)
+                              
+                                if (_Navigator.IsPresenterMode()) {
+                                    _ModuleCommon.PresenterMode();
+                                }
+                                if (_currentPageObject.pageId == "p2") {
+                                    $("#titleheader").focus();
+                                }
+                                else if (_currentPageId != quizpageid) {                                     if(isAndroid)
+                                    {
+                                        window.location.hash = '#progressdiv'
+                                    }
+                                    else
+                                    {
+                                        if(isiPhone)
+                                        {
+                                            $("#progressdiv").attr("role","text")
+                                        }
+                                        $("#progressdiv").focus();
+                                    }
+                                   
+                                }
+                                event.preventDefault();
+
+                            });
                         }
-                        if(_currentPageObject.pageId == "p2")
-                            setReader("titleheader");
                         else
                         {
-                            if(!$("body").hasClass("no-focus"))
-                            {
-                                setReader("progressdiv");
-                               
-                            }
-                         
+                            OnPageLoad();
                         }
-                        if(_ModuleCommon.GetPageDetailData().EmbedSettings !=undefined)
+
+                        if (_currentPageId == quizpageid)//  change to assessment id
                         {
-                            setReader("inputtext");
-                            
+                            _Assessment.ShowQuestion();
                         }
+                       
                         $("#hintdiv").show();
-                        if(_currentPageObject.hideHint !=undefined && _currentPageObject.hideHint)
-                        {
+                        if (_currentPageObject.hideHint != undefined && _currentPageObject.hideHint) {
                             $("#hintdiv").hide();
                         }
-                            if(presentermode)
-                            {
-                                _ModuleCommon.PresenterMode();
-                            }
                         if( _currentPageObject.hinturl !=undefined)
                         {
                             $(".hintlink").k_enable();
@@ -420,11 +446,20 @@ var _Navigator = (function () {
                         {
                             $(".hintlink").k_disable();
                         }
-                        _NData[_currentPageObject.pageId].isLoaded = true;
-                        //$("h2.pageheading").focus();
+
+                        if ((/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent))) {
+                            $('#footer-navigation').css('display', 'table');
+                        }
+
+                        _Navigator.GetBookmarkData();
                     });
                 })
             }
+
+            if (_Navigator.IsRevel()) {
+                LifeCycleEvents.OnLoadFromPlayer()
+             }
+
         },
         LoadDefaultQuestion: function () {
             if (_currentPageObject.questions.length > 0) {
@@ -442,14 +477,17 @@ var _Navigator = (function () {
             }
         },
         Prev: function () {
-            if ( _currentPageObject.pageId == "p31" && typeof(currentQuestionIndex) !='undefined'  &&  currentQuestionIndex > 0   ) {
-				$("#ReviewIns").hide();
+            if (_Navigator.IsRevel()) {
+                LifeCycleEvents.OnInteraction("Previous link click.")
+            }
+            if (_currentPageObject.pageId == quizpageid && typeof (currentQuestionIndex) != 'undefined' && currentQuestionIndex > 0) {
+                $("#ReviewIns").hide();
                 $(".intro-content-question").show();
                 $("#Questioninfo").show();
                 currentQuestionIndex  = currentQuestionIndex - 1;
                 $("#Summary").empty();
                 $("#Summary").hide();
-				showQuestion();				
+                _Assessment.ShowQuestion();
             }
             else{
                 this.LoadPage(_currentPageObject.prevPageId);
@@ -457,49 +495,43 @@ var _Navigator = (function () {
 
         },
         Next: function () {
-            $("#linkprevious").k_enable();
-            if (_currentPageObject.customNext != undefined && !_currentPageObject.customNext.isComplete) {
-                var custFunction = new Function(_currentPageObject.customNext.jsFunction);
-                custFunction();
+            if (_Navigator.IsRevel()) {
+                LifeCycleEvents.OnInteraction("Next link click.")
             }
-            if ( _currentPageObject.pageId == "p31")
-            {
-               
-             if ( typeof(currentQuestionIndex) !='undefined' && typeof(gRecordData.Questions) !='undefined'  && (currentQuestionIndex +1) < gRecordData.Questions.length ) {
-                    currentQuestionIndex  = currentQuestionIndex + 1
+            $("#linkprevious").k_enable();
+            
+            if (_currentPageObject.pageId == quizpageid) {
+
+                if (typeof (currentQuestionIndex) != 'undefined' && typeof (gRecordData.Questions) != 'undefined' && (currentQuestionIndex + 1) < gRecordData.Questions.length) {
+                    currentQuestionIndex = currentQuestionIndex + 1
                     $("#Questioninfo").show();
-                    showQuestion()
-                    
-                    //this.UpdateProgressBar();
-                    if(gRecordData.Status !="Completed")
-                        {
-                            $("#linknext").k_disable();    
-                            $("#linkprevious").k_disable();
-                        }
-    
+                    _Assessment.ShowQuestion()
+                    if (gRecordData.Status != "Completed" && !this.IsPresenterMode()) {
+                        $("#linknext").k_disable();
+                        $("#linkprevious").k_disable();
+                    }
+
                 }
 
               else  if ( typeof(currentQuestionIndex) !='undefined' && typeof(gRecordData.Questions) !='undefined'  && (currentQuestionIndex +1) == gRecordData.Questions.length ) {
                     //this.UpdateProgressBar();
                     // Show review instruction
-                    
-                        $(".intro-content-question").hide();
-                        $(".questionwrapper").hide();
-                        currentQuestionIndex  = currentQuestionIndex + 1;
-                        $("#Summary").show();
-                        $("#Questioninfo").hide();
-				        $("#Summary").load("pagedata/Summary.htm",function(){
-                            showSummary()                           
-                            $("#linkprevious").k_enable();
-                            
-                        })
-                        $("#climate-deal").css("margin-left","23%");
-                        $("#linknext").k_disable();
-                        
 
-                }                
-          
-			}
+                    $(".intro-content-question").hide();
+                    $(".questionwrapper").hide();
+                    currentQuestionIndex = currentQuestionIndex + 1;
+                    $("#Summary").show();
+                    $("#Questioninfo").hide();
+                    $("#Summary").load("pagedata/Summary.htm", function () {
+                        _Assessment.ShowSummary()
+                        $("#linkprevious").k_enable();
+
+                    })
+                    $("#climate-deal").css("margin-left", "23%");
+                    $("#linknext").k_disable();
+                }
+
+            }
             else {
 
                 this.LoadPage(_currentPageObject.nextPageId);
@@ -579,12 +611,158 @@ var _Navigator = (function () {
             return false;
 
         },
-        SetPresenterMode:function(val){
+        CheckIfPageLoaded: function (pageid) {
+            return _NData[pageid].isLoaded != undefined && _NData[pageid].isLoaded ? true : false;
+        },
+        SetPresenterMode: function (val) {
             presentermode = val;
         },
-        IsPresenterMode:function(){
-            return presentermode;
-        }
+        IsPresenterMode: function () {
+            if(packageType == "presenter"){
+                return true;
+            }
+            else{
+                return false;
+            }
+        },
+      SetVideoStatus: function(){
+            _NData[_currentPageId].played = true;
+        },
+        SetBookmarkData: function () {
+            var bookmarkdata;
+            if(this.IsScorm())
+            {
+                bookmarkdata = _ScormUtility.GetSuspendData();
+            }
+            else if(this.IsRevel())
+            {
+                bookmarkdata = JSON.stringify(k_Revel.get_StateData())
+            }
+            
+            if (bookmarkdata != undefined && bookmarkdata != "") {
+                bookmarkdata = JSON.parse(bookmarkdata);
+                bookmarkpageid = bookmarkdata.BMPageId;
+                this.SetNavigatorBMData(bookmarkdata.VisistedPages)
+                progressLevels = bookmarkdata.ProgressLevels;
+                _ModuleCommon.SetReviewData(bookmarkdata.ReviewData)
+                _Assessment.Setbookmarkdata(bookmarkdata.AssessmentData)
+            }
+        },
+        GetBookmarkData: function () {
+            if (!this.IsScorm() && !this.IsRevel())
+                return;
+            var bookmarkobj = {}
+            bookmarkobj.BMPageId = bookmarkpageid;
+            bookmarkobj.VisistedPages = this.GetNavigatorBMData();
+            bookmarkobj.ProgressLevels = progressLevels;
+            bookmarkobj.ReviewData = _ModuleCommon.GetReviewData();
+            bookmarkobj.AssessmentData = _Assessment.Getbookmarkdata();
+            if (this.IsRevel()) {
+                if (k_Revel.get_LaunchData().mode == LaunchModes.do) {
+                    var suspend_data = JSON.stringify(bookmarkobj);
+                    k_Revel.set_StateData(JSON.parse(suspend_data))
+                    k_Revel.PostData(gRecordData.Score, gRecordData.AssessmentScore);
+                }
+            }
+            else if (this.IsScorm()) {
+                _ScormUtility.SetSuspendData(JSON.stringify(bookmarkobj))
+            }
+
+        },
+        GetNavigatorBMData: function () {
+            var gVisistedPages = [];
+            for (var i in _NData) {
+                if (_NData[i].isAnswered) {
+                    gVisistedPages.push(_NData[i].pageId)
+                }
+            }
+            return gVisistedPages;
+        },
+        SetNavigatorBMData: function (gVisistedPages) {
+
+            for (var i = 0; i < gVisistedPages.length; i++) {
+                _NData[gVisistedPages[i]].isAnswered = true;
+            }
+        },
+       
+        SetBookMarkPage: function () {
+            if (this.IsScorm()) {
+                _ScormUtility.SetBookMark(bookmarkpageid);
+            }
+            else if (this.IsRevel()) {
+                this.GetBookmarkData();
+            }
+        },
+        GetBookMarkPage: function () {
+            return bookmarkpageid;
+        },
+        Initialize: function () {
+            if (packageType == "scorm") {
+                _ScormUtility.Init();
+                _Navigator.SetBookmarkData();
+                //bookmarkpageid = _ScormUtility.GetBookMark();
+                this.GotoBookmarkPage();
+            }
+            else if (packageType == "revel") {
+                g_tempIntv = setInterval(function () {
+                    if ((typeof piSession != 'undefined' && typeof piSession.currentToken() != 'undefined' && piSession.currentToken() != null)) {
+                        clearInterval(g_tempIntv);
+                        g_tempIntv = null;
+                        //The rest of the code will go here.
+                        LifeCycleEvents.InitParams();
+                        LifeCycleEvents.OnLoad();
+                        if (!k_Revel.isLaunchInitialize()) {
+                            k_Revel.InitLaunch()
+                            var suspend_data = JSON.stringify(k_Revel.get_StateData());
+                            if (suspend_data != "" && suspend_data != "{}") {
+                                var isTrue = this.SetBookmarkData();
+                                if (isTrue && k_Revel.get_LaunchData().mode == "do") {
+                                    this.GotoBookmarkPage();
+                                } else {
+                                    k_Revel.set_StateData(JSON.parse(suspend_data))
+                                }
+                            }
+                        }
+                        if (k_Revel.get_LaunchData().mode == "review") {
+                            var suspend_data = JSON.stringify(k_Revel.get_StateData());
+                            if (suspend_data != "" && suspend_data != "{}") {
+                                this.SetBookmarkData(suspend_data);
+                                isReview = true;
+                            }
+                        }
+                    }
+                }, 100);
+
+            }
+            else
+            {
+                _Navigator.Start();
+            }
+        },
+        GotoBookmarkPage: function () {
+           
+            if (bookmarkpageid != undefined && bookmarkpageid != "") {
+                _Navigator.LoadPage(bookmarkpageid)
+            }
+            else {
+                _Navigator.Start();
+            }
+        },
+        IsScorm: function () {
+            if (packageType == "scorm")
+                return true;
+
+            return false;
+
+        },
+        IsRevel: function () {
+            if (packageType == "revel")
+                return true;
+            return false;
+        },
+        GetPackageType: function () {
+            return packageType;
+        },
     };
 })();
 

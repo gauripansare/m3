@@ -25,9 +25,13 @@ $(document).on("click", ".qheight", function (event) {
     $(this).addClass("optionselected");
 
 });
-var hotspotclicked = false;;
+var hotspotclicked = false;
+var count = "0";
 var hotspot;
 $(document).on("click", ".divHotSpot", function (event) {
+    if (_Navigator.IsPresenterMode()) {
+        return;
+    }
     event.preventDefault();
     $(this).k_disable()
     if (hotspotclicked || _Navigator.IsAnswered())
@@ -38,64 +42,96 @@ $(document).on("click", ".divHotSpot", function (event) {
     setTimeout(function () {
         hotspotclicked = false;
         _ModuleCommon.HotspotClick(hotspot, event);
-       
-    },400)
-    
+
+    }, 400)
+
 });
-$(document).on("dblclick", ".divHotSpotdbl", function (event) {
-    event.preventDefault();
-    $(this).k_disable()
-    if (hotspotclicked || _Navigator.IsAnswered())
+
+
+$(document).on("click", ".divHotSpotdbl", function (event) {
+    if (_Navigator.IsPresenterMode()) {
         return;
-    hotspotclicked = true;
-    $(this).addClass("hotspotclicked")
-    hotspot = $(this);
-    setTimeout(function () {
-        hotspotclicked = false;
-        _ModuleCommon.HotspotClick(hotspot, event);
-       
-    },400)
-    
+    }
+    if ($(this).attr("disabled") || $(this).hasClass("disabled")) {
+        event.preventDefault();
+        return;
+    } else {
+        event.preventDefault();
+        count++;
+        if (count == 2) {
+            $(this).k_disable()
+            if (hotspotclicked || _Navigator.IsAnswered())
+                return;
+            $(this).addClass("hotspotclicked")
+            hotspot = $(this);
+            setTimeout(function () {
+                hotspotclicked = false;
+                _ModuleCommon.HotspotClick(hotspot, event);
+            }, 400);
+            count = 0;
+        }
+    }
 });
 $(document).on("click", "#linkprevious", function (event) {
     if ($(this).k_IsDisabled()) return;
     _Navigator.Prev();
 });
 $(document).on("click", "#linknext", function (event) {
-    if ($(this).k_IsDisabled()) return;    
+    if ($(this).k_IsDisabled()) return;
     _Navigator.Next();
 });
 
-
-//$(document).on("dblclick", ".divHotSpot", function (event) {
-//    return;
-
-//});
-
-
 $(document).on("click", ".hintlink", function (event) {
+    if ($(this).k_IsDisabled()) return;
+   var open = "open;"
     if ($(this).hasClass("expanded")) {
         $(".hintlink").removeClass("expanded")
-        $(".hintlink").attr("aria-expanded", "false")
+        $(".hintlink").attr("aria-expanded", "false")        
         $(".hintcontainer").slideUp(100);
-    }
-    else {
+        $(".hintlink .hintlinkspan").css({
+            "color": "#047a9c",
+            "border-bottom": "1px solid #047a9c"
+        })
+        $(this).find("path").css({
+            "fill": "#047a9c"
+        })
+         $(".pageheading").focus();
+        open = "close";
+    } else {
         $(".hintcontainer").slideDown(100, function () {
             $(".hintlink").addClass("expanded");
-            $(".hintlink").attr("aria-expanded", "true");
+            $(".hintlink").attr("aria-expanded", "true");  
+            $(".hintcontainer .hintcontent").find("p:first").attr("tabindex","-1")
+            if(iOS)
+            {
+                $(".hintcontainer .hintcontent").find("p:first").attr("role","text")
+            }
+            $(".hintcontainer .hintcontent").find("p:first").focus(); 
         });
+        $(".hintlink .hintlinkspan").css({
+            "color": "#b22222",
+            "border-bottom": "1px solid #b22222"
+        })
+         $(this).find("path").css({
+            "fill": "#b22222"
+        })
     }
-
+    if (_Navigator.IsRevel()) {
+        LifeCycleEvents.OnInteraction("Hint button click. Hint " + open)
+    }
 });
 $(document).on("click", ".closehintlink", function (event) {
-
+    if ($(this).k_IsDisabled()) return;
     $(".hintlink").removeClass("expanded")
     $(".hintlink").attr("aria-expanded", "false")
-    $(".hintcontainer").slideUp(100);
-
+    $(".hintcontainer").slideUp(100,function(){$("h2.pageheading").focus();});
+    if (_Navigator.IsRevel()) {
+        LifeCycleEvents.OnInteraction("Hint button click. Hint closed")
+    }
 
 });
 $(document).on("keydown", "input.EmbededElement", function (event) {
+    if ($(this).k_IsDisabled()) return;
     if ($(this).attr("disabled") || $(this).hasClass("disabled")) {
         event.preventDefault();
         return;
@@ -114,44 +150,140 @@ $(window).resize(function () {
     _ModuleCommon.OrientationChange();
 });
 
-$(window).resize(function () {
 
-
-});
 
 $(document).on('click', ".activityimg", function (event) {
-    if ($(".divHotSpot").hasClass("disabled") || $(".divHotSpot").length == 0)
-        return;
+    if ($(this).k_IsDisabled()) return;
     _ModuleCommon.AddEditPropertiesClick(event);
 });
 
 
 $(document).on('click', ".startbtn", function (event) {
-   _Navigator.Next();
-  // _Navigator.LoadPage("p13");
+    if ($(this).k_IsDisabled()) return;
+    _Navigator.Next();
 });
 $(document).on('click', ".reviewsubmit", function (event) {
+    if ($(this).k_IsDisabled()) return;
     _Navigator.Next();
 });
 $(document).on('mouseover', ".hintlink", function (event) {
+    if ($(this).k_IsDisabled()) return;
     $(".hintlink .hintlinkspan").css({"color":"#b22222","border-bottom":"1px solid #b22222"})
     $(this).find("path").css({"fill":"#b22222"})
 });
 
 $(document).on('mouseout', ".hintlink", function (event) {
- $(".hintlink .hintlinkspan").css({"color":"#047a9c","border-bottom":"1px solid #047a9c"})
- $(this).find("path").css({"fill":"#047a9c"}) 
+    $(".hintlink .hintlinkspan").css({
+        "color": "#047a9c",
+        "border-bottom": "1px solid #047a9c"
+    })
+    $(this).find("path").css({
+        "fill": "#047a9c"
+    })
+});
+
+$(document).on("mouseup", ".ui-draggable", function (event) {
+    if ($(this).attr("disabled") || $(this).hasClass("disabled")) {
+        $(".droppable1,.droppable2,.droppable3 ").css({
+            "border": "none"
+        });
+        event.preventDefault();
+        return;
+    } else {
+        if ($('.selected').length > 0) {
+            $('.selected').removeClass('selected').css("border", "none");
+        }
+        $(this).css("border", "cornflowerblue solid 2px");
+        $(this).addClass("selected");
+        $(this).attr({"aria-grabbed":"true"})
+        $('.droppable1 ').attr({"aria-dropeffect":"move"})
+        $(".droppable1,.droppable2,.droppable3 ").css("border", "cornflowerblue solid 2px");
+    }
+
+});
+$(document).on("mousedown", ".droppable1", function (event) {
+    var pagedata = _Navigator.GetCurrentPage();
+    $('.selected').addClass("dropped");
+    var draggable = $('.selected');
+    if (pagedata.pageId == "p8") {        
+        
+        _ModuleCommon.DropImage(draggable, "draggable1");
+        _ModuleCommon.AddDragReviewData(draggable, true);
+       
+    } else {
+        if (draggable.hasClass('draggable1')) {
+            _ModuleCommon.AddDragReviewData(draggable, true);
+            _ModuleCommon.DropTwoImage(draggable, "draggable1");
+            
+        } else {
+            draggable.removeClass("dropped").css("border", "none");
+            draggable.removeClass("selected")
+            
+        }
+    }
+    
+    $('.dropped').removeClass('selected');    
+    $(".draggable1").attr({"aria-grabbed":"false"})
+    $('.droppable1 ').attr({"aria-dropeffect":"none"})
+    $(".ui-droppable,.disabled").css("border", "none");
+    
+});
+
+$(document).on("mousedown", ".droppable2", function (event) {
+    $('.selected').addClass("dropped");
+    var draggable = $('.selected');
+    if (draggable.hasClass('draggable2')) {
+        _ModuleCommon.AddDragReviewData(draggable, true);
+        _ModuleCommon.DropTwoImage(draggable, "draggable2");      
+       
+    } else {
+        draggable.removeClass("dropped").css("border", "none");
+       
+        
+    }
+    $('.dropped').removeClass('selected');
+    $(".draggable2").attr({"aria-grabbed":"false"})
+    $('.droppable2 ').attr({"aria-dropeffect":"none"})
+    $(".ui-droppable").css("border", "none");
+    $(".disabled").css("border", "none");
 });
 
 $(document).on("change", ".assessmentradio", function (event) {
-    $(".assessmentSubmit").k_enable();  
-  
+    if ($(this).k_IsDisabled()) return;
+    if($(this).hasClass("disabled"))
+        return;
+    $(".assessmentSubmit").k_enable();    
 });
 $(document).on("click", ".assessmentSubmit", function (event) {
+    if ($(this).k_IsDisabled()) return;
+    if (_Navigator.IsRevel()) {
+        LifeCycleEvents.OnSubmit();
+    }
     gRecordData.Questions[currentQuestionIndex].UserSelectedOptionId = $("input[type='radio']:checked").attr("id") ;
     gRecordData.Questions[currentQuestionIndex].IsAnswered = true;
+    _Navigator.GetBookmarkData();
     _Navigator.Next();
 });
 
+$(document).on('click', ".inputcircle", function (event) {
+    if ($(this).k_IsDisabled()) return;
+    $(this).next(".inpputtext").trigger( "click" );
+});
 
+$("input").keydown(function () {
+    $("input").css("background-color", "yellow");
+});
 
+$("input").keyup(function (event) {
+    $("input").css("background-color", "pink");
+});
+
+window.onload = function () {
+    _ScormUtility.Init();
+}
+
+window.onunload = function () {
+    _ScormUtility.End();
+}
+
+    

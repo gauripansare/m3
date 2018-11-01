@@ -14,7 +14,7 @@
 
 body {
     display: block;
-    margin: 0px 2px;
+    margin: 2px 0px 0px 0px;
     color: #333333;
     box-sizing: border-box;
 }
@@ -77,21 +77,26 @@ div, p, span, input {
         min-width: 100px;
     }
 
-        a:focus, input:focus, button:focus, textarea:focus, select:focus, a:active, input:active, button:active, textarea:active, select:active {
-            outline: #ff8c00 solid 2px;
-        }
+a:focus, input:focus, button:focus, textarea:focus, select:focus, a:active, input:active, 
+button:active, textarea:active, select:active,
+ .questioninnerwrapper input[type="radio"]:focus + .inputcircle::after,
+ #Summary input[type="radio"]:focus + .inputcircle::after {
+    outline: #ff8c00 auto 3px;
+}
 
-#appmenu *:focus, #appmenu *:active {
-    outline: #ff8c00 solid 2px;
+.no-focus .questioninnerwrapper input[type="radio"]:focus + .inputcircle::after {
+    outline: none
+}
+
+#progressdiv:focus,#titleheader:focus,#header1:focus,#div_feedback p:focus,#Questioninfo:focus,#summaryheading:focus,.pageheading:focus,p:focus{ /*for accessibility*/
+    outline: none
 }
 
 .mxwidth {
     max-width: 990px;
 }
 
-.headmargin {
-    /* margin-top: 144px; */
-}
+
 
 #wrapper {
     width: 100%;
@@ -408,4 +413,10 @@ header {
     border-bottom: 1px solid #cccccc;
     padding:5px 0 10px 0;
     margin-bottom:25px;
+}
+.summaryoptions {
+    margin-bottom: 4%;
+}
+.textentryreview1 {
+    text-align: center;
 }
