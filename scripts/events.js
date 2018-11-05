@@ -48,7 +48,7 @@ $(document).on("click", ".divHotSpot", function (event) {
 });
 
 
-$(document).on("click", ".divHotSpotdbl", function (event) {
+$(document).on("dblclick", ".divHotSpotdbl", function (event) {
     if (_Navigator.IsPresenterMode()) {
         return;
     }
@@ -57,8 +57,34 @@ $(document).on("click", ".divHotSpotdbl", function (event) {
         return;
     } else {
         event.preventDefault();
-        count++;
-        if (count == 2) {
+
+        $(this).k_disable()
+        if (hotspotclicked || _Navigator.IsAnswered())
+            return;
+        $(this).addClass("hotspotclicked")
+        hotspot = $(this);
+        setTimeout(function () {
+            hotspotclicked = false;
+            _ModuleCommon.HotspotClick(hotspot, event);
+        }, 400);
+
+    }
+});
+$(document).on("keyup", ".divHotSpotdbl", function (event) {
+    if (_Navigator.IsPresenterMode()) {
+        return;
+    }
+    if ($(this).attr("disabled") || $(this).hasClass("disabled")) {
+        event.preventDefault();
+        return;
+    } else {
+        event.preventDefault();
+        if (window.event) {
+            key = window.event.keyCode;
+        } else if (event) {
+            key = event.keyCode;
+        }
+        if (key == 13) {
             $(this).k_disable()
             if (hotspotclicked || _Navigator.IsAnswered())
                 return;
@@ -68,10 +94,11 @@ $(document).on("click", ".divHotSpotdbl", function (event) {
                 hotspotclicked = false;
                 _ModuleCommon.HotspotClick(hotspot, event);
             }, 400);
-            count = 0;
         }
+
     }
 });
+
 $(document).on("click", "#linkprevious", function (event) {
     if ($(this).k_IsDisabled()) return;
     _Navigator.Prev();
@@ -83,10 +110,10 @@ $(document).on("click", "#linknext", function (event) {
 
 $(document).on("click", ".hintlink", function (event) {
     if ($(this).k_IsDisabled()) return;
-   var open = "open;"
+    var open = "open;"
     if ($(this).hasClass("expanded")) {
         $(".hintlink").removeClass("expanded")
-        $(".hintlink").attr("aria-expanded", "false")        
+        $(".hintlink").attr("aria-expanded", "false")
         $(".hintcontainer").slideUp(100);
         $(".hintlink .hintlinkspan").css({
             "color": "#047a9c",
@@ -95,24 +122,23 @@ $(document).on("click", ".hintlink", function (event) {
         $(this).find("path").css({
             "fill": "#047a9c"
         })
-         $(".pageheading").focus();
+        $(".pageheading").focus();
         open = "close";
     } else {
         $(".hintcontainer").slideDown(100, function () {
             $(".hintlink").addClass("expanded");
-            $(".hintlink").attr("aria-expanded", "true");  
-            $(".hintcontainer .hintcontent").find("p:first").attr("tabindex","-1")
-            if(iOS)
-            {
-                $(".hintcontainer .hintcontent").find("p:first").attr("role","text")
+            $(".hintlink").attr("aria-expanded", "true");
+            $(".hintcontainer .hintcontent").find("p:first").attr("tabindex", "-1")
+            if (iOS) {
+                $(".hintcontainer .hintcontent").find("p:first").attr("role", "text")
             }
-            $(".hintcontainer .hintcontent").find("p:first").focus(); 
+            $(".hintcontainer .hintcontent").find("p:first").focus();
         });
         $(".hintlink .hintlinkspan").css({
             "color": "#b22222",
             "border-bottom": "1px solid #b22222"
         })
-         $(this).find("path").css({
+        $(this).find("path").css({
             "fill": "#b22222"
         })
     }
@@ -124,7 +150,7 @@ $(document).on("click", ".closehintlink", function (event) {
     if ($(this).k_IsDisabled()) return;
     $(".hintlink").removeClass("expanded")
     $(".hintlink").attr("aria-expanded", "false")
-    $(".hintcontainer").slideUp(100,function(){$("h2.pageheading").focus();});
+    $(".hintcontainer").slideUp(100, function () { $("h2.pageheading").focus(); });
     if (_Navigator.IsRevel()) {
         LifeCycleEvents.OnInteraction("Hint button click. Hint closed")
     }
@@ -142,7 +168,7 @@ $(document).on("keydown", "input.EmbededElement", function (event) {
         key = event.keyCode;
     }
     if (key == 13) {
-        _ModuleCommon.InputEnter($(this)); 
+        _ModuleCommon.InputEnter($(this));
     }
 });
 
@@ -168,8 +194,8 @@ $(document).on('click', ".reviewsubmit", function (event) {
 });
 $(document).on('mouseover', ".hintlink", function (event) {
     if ($(this).k_IsDisabled()) return;
-    $(".hintlink .hintlinkspan").css({"color":"#b22222","border-bottom":"1px solid #b22222"})
-    $(this).find("path").css({"fill":"#b22222"})
+    $(".hintlink .hintlinkspan").css({ "color": "#b22222", "border-bottom": "1px solid #b22222" })
+    $(this).find("path").css({ "fill": "#b22222" })
 });
 
 $(document).on('mouseout', ".hintlink", function (event) {
@@ -182,7 +208,19 @@ $(document).on('mouseout', ".hintlink", function (event) {
     })
 });
 
-$(document).on("mouseup", ".ui-draggable", function (event) {
+$(document).on("mouseup", ".dragdiv", function (event) {
+    if (window.event) {
+        key = window.event.keyCode;
+    } else if (event) {
+        key = event.keyCode;
+    }
+    if (key == 13) {
+        $(this).trigger("click")
+    }
+
+});
+$(document).on("click", ".dragdiv", function (event) {
+
     if ($(this).attr("disabled") || $(this).hasClass("disabled")) {
         $(".droppable1,.droppable2,.droppable3 ").css({
             "border": "none"
@@ -195,71 +233,101 @@ $(document).on("mouseup", ".ui-draggable", function (event) {
         }
         $(this).css("border", "cornflowerblue solid 2px");
         $(this).addClass("selected");
-        $(this).attr({"aria-grabbed":"true"})
-        $('.droppable1 ').attr({"aria-dropeffect":"move"})
+
+        $(this).attr({ "aria-pressed": "true" })
+        // $('.droppable1 ').attr({ "aria-dropeffect": "move" })
         $(".droppable1,.droppable2,.droppable3 ").css("border", "cornflowerblue solid 2px");
     }
 
+
 });
 $(document).on("mousedown", ".droppable1", function (event) {
+    if (window.event) {
+        key = window.event.keyCode;
+    } else if (event) {
+        key = event.keyCode;
+    }
+    if (key == 13) {
+        $(this).trigger("click")
+    }
+
+});
+
+$(document).on("click", ".droppable1", function (event) {
+    if( $('.selected').length == 0)
+    return;
     var pagedata = _Navigator.GetCurrentPage();
     $('.selected').addClass("dropped");
     var draggable = $('.selected');
-    if (pagedata.pageId == "p8") {        
-        
+    if (pagedata.pageId == "p8") {
+
         _ModuleCommon.DropImage(draggable, "draggable1");
-        _ModuleCommon.AddDragReviewData(draggable, true);
-       
+        _ModuleCommon.AddDragReviewData(draggable, true,$(this));
+
     } else {
         if (draggable.hasClass('draggable1')) {
-            _ModuleCommon.AddDragReviewData(draggable, true);
+
             _ModuleCommon.DropTwoImage(draggable, "draggable1");
-            
+            _ModuleCommon.AddDragReviewData(draggable, true,$(this));
+
         } else {
             draggable.removeClass("dropped").css("border", "none");
-            draggable.removeClass("selected")
-            
+            draggable.removeClass("selected");
+            _ModuleCommon.AddDragReviewData(draggable, false);
+
         }
     }
-    
-    $('.dropped').removeClass('selected');    
-    $(".draggable1").attr({"aria-grabbed":"false"})
-    $('.droppable1 ').attr({"aria-dropeffect":"none"})
+    $('.selected').attr("aria-pressed", "false")
+    $('.selected').removeClass('selected');
     $(".ui-droppable,.disabled").css("border", "none");
-    
+
+
 });
 
 $(document).on("mousedown", ".droppable2", function (event) {
+    if (window.event) {
+        key = window.event.keyCode;
+    } else if (event) {
+        key = event.keyCode;
+    }
+    if (key == 13) {
+        $(this).trigger("click")
+    }
+});
+$(document).on("click", ".droppable2", function (event) {
+    if( $('.selected').length == 0)
+        return;
     $('.selected').addClass("dropped");
     var draggable = $('.selected');
     if (draggable.hasClass('draggable2')) {
-        _ModuleCommon.AddDragReviewData(draggable, true);
-        _ModuleCommon.DropTwoImage(draggable, "draggable2");      
-       
+
+        _ModuleCommon.DropTwoImage(draggable, "draggable2");
+        _ModuleCommon.AddDragReviewData(draggable, true,$(this));
+
     } else {
         draggable.removeClass("dropped").css("border", "none");
-       
-        
+        _ModuleCommon.AddDragReviewData(draggable, false);
     }
-    $('.dropped').removeClass('selected');
-    $(".draggable2").attr({"aria-grabbed":"false"})
-    $('.droppable2 ').attr({"aria-dropeffect":"none"})
+    $('.selected').attr("aria-pressed", "false")
+    $('.selected').removeClass('selected');
+    $('.droppable2 ').attr({ "aria-dropeffect": "none" })
     $(".ui-droppable").css("border", "none");
     $(".disabled").css("border", "none");
+
 });
 
 $(document).on("change", ".assessmentradio", function (event) {
     if ($(this).k_IsDisabled()) return;
-    if($(this).hasClass("disabled"))
+    if ($(this).hasClass("disabled"))
         return;
-    $(".assessmentSubmit").k_enable();    
+    $(".assessmentSubmit").k_enable();
 });
 $(document).on("click", ".assessmentSubmit", function (event) {
     if ($(this).k_IsDisabled()) return;
     if (_Navigator.IsRevel()) {
         LifeCycleEvents.OnSubmit();
     }
-    gRecordData.Questions[currentQuestionIndex].UserSelectedOptionId = $("input[type='radio']:checked").attr("id") ;
+    gRecordData.Questions[currentQuestionIndex].UserSelectedOptionId = $("input[type='radio']:checked").attr("id");
     gRecordData.Questions[currentQuestionIndex].IsAnswered = true;
     _Navigator.GetBookmarkData();
     _Navigator.Next();
@@ -267,7 +335,7 @@ $(document).on("click", ".assessmentSubmit", function (event) {
 
 $(document).on('click', ".inputcircle", function (event) {
     if ($(this).k_IsDisabled()) return;
-    $(this).next(".inpputtext").trigger( "click" );
+    $(this).next(".inpputtext").trigger("click");
 });
 
 $("input").keydown(function () {
@@ -286,4 +354,3 @@ window.onunload = function () {
     _ScormUtility.End();
 }
 
-    

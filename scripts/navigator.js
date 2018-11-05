@@ -1,7 +1,7 @@
 ﻿//This api will contain navigation logic and page load.
 //It will also handle the question navigation if the page is having multiple questions.
 var _Navigator = (function () {
-    var packageType = "presenter";//presenter/scorm/revel
+    var packageType = "";//presenter/scorm/revel
     var _currentPageId = "";
     var _currentPageObject = {};
     var progressLevels = [35];
@@ -405,7 +405,13 @@ var _Navigator = (function () {
                                 if (_currentPageObject.pageId == "p2") {
                                     $("#titleheader").focus();
                                 }
-                                else if (_currentPageId != quizpageid) {                                     if(isAndroid)
+                                else if (_currentPageId != quizpageid) {   
+                                    if(!_Navigator.IsAnswered() && _PData[_currentPageId].EmbedSettings !=undefined
+                                    )
+                                    {
+                                        $("input[type='text']").focus()
+                                    }
+                                    else if(isAndroid)
                                     {
                                         window.location.hash = '#progressdiv'
                                     }

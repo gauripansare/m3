@@ -15,12 +15,22 @@ var isSafari = navigator.userAgent.toLowerCase().indexOf('safari/') > -1;
 var isIEEdge = /Edge/.test(navigator.userAgent);
 var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
 var isFirefox = /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent);
+var delay = 1000;
+if(iOS)
+{
+    delay =3000;
+}
 jQuery.fn.extend({
     k_enable: function () {
         return this.removeClass('disabled').attr("aria-disabled", "false").removeAttr("disabled");
     },
     k_disable: function () {
-        return this.addClass('disabled').attr("aria-disabled", "true").attr("disabled", "disabled");
+        this.addClass('disabled').attr("aria-disabled", "true").attr("disabled", "disabled");
+        if(isIE11version)
+        {
+            $(this).removeAttr("disabled")
+        }
+        return;
     },
     k_IsDisabled: function () {
         if (this.hasClass('disabled')) { return true; } else { return false; }
@@ -86,6 +96,7 @@ var _ModuleCommon = (function () {
             var pageDetailData = this.GetPageDetailData();
             var pagedata = _Navigator.GetCurrentPage();
             if (["p8", "p13", "p15", "p21", "p27"].indexOf(pagedata.pageId) >= 0) {
+                this.AddCommonAttributes();
                 if (pagedata.pageId == "p8") {
                     this.DisplayDrangAndDropInReviewMode();
                 }
@@ -99,6 +110,7 @@ var _ModuleCommon = (function () {
                     this.DisplayDrangAndDropInReviewMode2();
                 }
                 this.DragandDropFeedbackReviewMode();
+                
                 return
             }
             if (pageDetailData != undefined && pageDetailData.EmbedSettings != undefined) {
@@ -146,7 +158,8 @@ var _ModuleCommon = (function () {
                 for (i = 0; i < reviewData.textEntry.length; i++) {
                     if (reviewData.textEntry[i] != undefined && reviewData.textEntry[i] != "") {
                         var tEntry = reviewData.textEntry[i].trim().toLowerCase();
-                        if (pageDetailData.EmbedSettings.validatearray.indexOf(tEntry) >= 0) {
+                        var larray = pageDetailData.EmbedSettings.validatearray.map(function(x){ return x.toLowerCase() })
+                        if (larray.indexOf(tEntry) >= 0) {
                             if (reviewData.isCorrect && i == 0) {
                                 if (_Navigator.GetCurrentPage().pageId == "p6" && /\sSafari\//.test(navigator.userAgent)) {
                                     $(".textentryreview1").html("<span class='OpenSansFont greenspan' style='font-weight:bold;font-size: 11px; '>" + reviewData.textEntry[i] + "</span>");
@@ -156,21 +169,21 @@ var _ModuleCommon = (function () {
                                     $(".textentryreview1").html("<span class='OpenSansFont greenspan' style='font-weight:bold;font-size: 13px; '>" + reviewData.textEntry[i] + "</span>");
 
                                 }
-                                $("#acctextentryreview").text("correct value Entered " + reviewData.textEntry[i])
+                                $("#acctextentryreview").text("correct value entered " + reviewData.textEntry[i])
                                 $(".textentryreview1").show().k_disable();
                             }
                             else {
                                 $(".textentryreview2").html("<span class='OpenSansFont greenspan'  style='font-weight:bold;font-size: 13px;padding-left:5px; '>" + reviewData.textEntry[i] + "</span>");
                                 $(".textentryreview2").show();
-                                $("#acctextentryreview").text("correct value entered " + reviewData.textEntry[i] + " incorrect value entered " + reviewData.textEntry[i - 1])
+                                $("#acctextentryreview").text(" incorrect value entered " + reviewData.textEntry[i - 1] +" correct value is " + reviewData.textEntry[i] )
+
 
                             }
 
                         }
                         else {
                             $(".textentryreview1").html("<span class='OpenSansFont redspan'  style='font-weight:bold;font-size: 13px; '>" + reviewData.textEntry[i] + "</span>")
-                            $("#acctextentryreview").text("correct value entered " + reviewData.textEntry[i] + " incorrect value entered " + reviewData.textEntry[i + 1])
-
+                           
                         }
                     }
 
@@ -724,7 +737,7 @@ var _ModuleCommon = (function () {
                 if (iOS) {
                     $("#div_feedback p:first").attr("role", "text")
                 }
-                $('html,body').animate({ scrollTop: document.body.scrollHeight }, 1000, function () {
+                $('html,body').animate({ scrollTop: document.body.scrollHeight }, delay, function () {
                     $("#div_feedback p:first").focus();
                 });
             });
@@ -753,7 +766,7 @@ var _ModuleCommon = (function () {
                 if (iOS) {
                     $("#div_feedback p:first").attr("role", "text")
                 }
-                $('html,body').animate({ scrollTop: document.body.scrollHeight }, 1000, function () {
+                $('html,body').animate({ scrollTop: document.body.scrollHeight }, delay, function () {
                     $("#div_feedback p:first").focus();
                 });
             });
@@ -785,7 +798,8 @@ var _ModuleCommon = (function () {
                             }
                         }
                     }
-                    var index = _PData[_Navigator.GetCurrentPage().pageId].EmbedSettings.validatearray.indexOf(pagereviewdata.textEntry[pagereviewdata.textEntry.length - 1].toLowerCase());
+                    var larray = _PData[_Navigator.GetCurrentPage().pageId].EmbedSettings.validatearray.map(function(x){ return x.toLowerCase() })
+                    var index =larray.indexOf(pagereviewdata.textEntry[pagereviewdata.textEntry.length - 1].toLowerCase());
                     if (index >= 0) {
                         _PData[_Navigator.GetCurrentPage().pageId].EmbedSettings.validatearray.splice(index, 1)
                     }
@@ -794,17 +808,25 @@ var _ModuleCommon = (function () {
                 var pageData = this.GetPageDetailData();
                 var vtextarr = pageData.EmbedSettings.validatearray;
                 var isVRequired = false;
-
+                var indx=-1 ;
                 for (var i = 0; i < vtextarr.length; i++) {
                     if (($.trim(vtextarr[i])).toLowerCase() == ($.trim(inputtext.val())).toLowerCase()) {
                         isVRequired = true;
-
+                        indx = i;
                         break;
                     }
                 }
 
                 var found = false;
-                var str = $.trim(inputtext.val()).toLowerCase();
+                var str="";
+                if(indx >= 0)
+                {
+                    str = vtextarr[indx];
+                }
+                else
+                {
+                    str = $.trim(inputtext.val());
+                }
                 var currentPageData = _Navigator.GetCurrentPage();
                 if (reviewData != undefined && reviewData.length > 0) {
                     for (var i = 0; i < reviewData.length; i++) {
@@ -886,8 +908,8 @@ var _ModuleCommon = (function () {
                 cursor: "move",
 
                 start: function (event, ui) {
-                    $(this).attr({ "aria-grabbed": "true" })
-                    $('.droppable1 ').attr({ "aria-dropeffect": "move" })
+                   // $(this).attr({ "aria-grabbed": "true" })
+                   // $('.droppable1 ').attr({ "aria-dropeffect": "move" })
                     $(ui.helper).css("z-Index", 100);
                     ui.helper.data('rejected', true);
                     ui.helper.data('original-position', ui.helper.offset());
@@ -900,9 +922,11 @@ var _ModuleCommon = (function () {
                 stop: function (event, ui) {
                     if (ui.helper.data('rejected') === true) {
                         _ModuleCommon.AddDragReviewData(ui, false);
+                        ui.helper.removeClass("rejected");
                     }
                 }
             });
+            this.AddCommonAttributes()
             $(".droppable1").droppable({
                 accept: ".draggable1",
                 classes: {
@@ -925,15 +949,31 @@ var _ModuleCommon = (function () {
                 }
             });
         },
+        AddCommonAttributes:function(){
+            $(".dragdiv").each(function(){
+                $(this).attr({"role":"button","aria-pressed":"false","aria-label": $(this).find("img").attr("alt"),"data-aria-label" : $(this).find("img").attr("alt")});
+
+               $(this).find("img").removeAttr("alt");
+               if(!iOS)
+               {
+                    $(this).find("img").attr("aria-hidden","true");
+               }
+               if(_Navigator.IsAnswered()){
+                   $(this).k_disable();
+               }
+              
+            })
+        },
         DropImage: function ($item) {
             $item.appendTo(".droppable1")
             $item.addClass("filedropped").k_disable();
-            var droppedImg = $item.find("img").attr("alt")
-            $item.find("img").attr("alt1", droppedImg + " dropped in bidsforkids folder").removeAttr("alt")
+            var droppedImgalabel = $item.attr("aria-label")
+            $item.attr("aria-label", droppedImgalabel + " dropped in bidsforkids folder")
             $item.css("border", "none");
-            $item.attr({ "aria-grabbed": "false" })
+            //$item.removeAttr( "aria-grabbed")
             $('.filedropped').k_disable();
-            $('.droppable1 ').attr({ "aria-dropeffect": "none" })
+            $('.filedropped').attr({"aria-hidden":"true"})
+            //$('.droppable1 ').attr({ "aria-dropeffect": "none" })
             // addClass("disabled").attr("aria-disabled","true")
             var top1 = 0;
             var top2 = 0;
@@ -949,11 +989,11 @@ var _ModuleCommon = (function () {
                     top1 = top1 + 70;
                 }
                 if (i == 5) {
-                    $(".filedropped").each(function () {
-                        var fileddropattr = $(this).find("img").attr("alt1")
-                        $(this).find("img").attr("alt", fileddropattr).removeAttr("alt1")
-                    })
-
+                    // $(".filedropped").each(function () {
+                    //     var fileddropattr = $(this).find("img").attr("alt1")
+                    //     $(this).find("img").attr("alt", fileddropattr).removeAttr("alt1")
+                    // })
+                    $('.filedropped').each(function(){$(this).removeAttr("aria-hidden")});
                     _ModuleCommon.DragDropFeedback();
 
                 }
@@ -968,8 +1008,8 @@ var _ModuleCommon = (function () {
                 containment: ".wrapperimage",
                 cursor: "move",
                 start: function (event, ui) {
-                    $(this).attr({ "aria-grabbed": "true" })
-                    $('.droppable1 ').attr({ "aria-dropeffect": "move" })
+                    //$(this).attr({ "aria-grabbed": "true" })
+                    //$('.droppable1 ').attr({ "aria-dropeffect": "move" })
                     $(ui.helper).css("z-Index", 100);
                     ui.helper.data('rejected', true);
                     ui.helper.data('original-position', ui.helper.offset());
@@ -1002,7 +1042,7 @@ var _ModuleCommon = (function () {
                     $(".droppable1,.droppable2,.droppable3 ").css({ "border": "none" });
                     if (ui.helper.hasClass("draggable1")) {
                         ui.helper.data('rejected', false);
-                        _ModuleCommon.AddDragReviewData(ui, true);
+                        _ModuleCommon.AddDragReviewData(ui, true,$(this));
                         _ModuleCommon.DropTwoImage(ui.draggable, "draggable1");
 
                     }
@@ -1020,8 +1060,8 @@ var _ModuleCommon = (function () {
                 containment: ".wrapperimage",
                 cursor: "move",
                 start: function (event, ui) {
-                    $(this).attr({ "aria-grabbed": "true" })
-                    $('.droppable2 ').attr({ "aria-dropeffect": "move" })
+                   // $(this).attr({ "aria-grabbed": "true" })
+                   // $('.droppable2 ').attr({ "aria-dropeffect": "move" })
                     $(ui.helper).css("z-Index", 100);
                     ui.helper.data('rejected', true);
                     ui.helper.data('original-position', ui.helper.offset());
@@ -1054,7 +1094,7 @@ var _ModuleCommon = (function () {
                     $(".droppable1,.droppable2,.droppable3 ").css({ "border": "none" });
                     if (ui.helper.hasClass("draggable2")) {
                         ui.helper.data('rejected', false);
-                        _ModuleCommon.AddDragReviewData(ui, true);
+                        _ModuleCommon.AddDragReviewData(ui, true,$(this));
                         _ModuleCommon.DropTwoImage(ui.draggable, "draggable2");
 
                     }
@@ -1070,8 +1110,8 @@ var _ModuleCommon = (function () {
                 containment: ".wrapperimage",
                 cursor: "move",
                 start: function (event, ui) {
-                    $(this).attr({ "aria-grabbed": "true" })
-                    $('.droppable3 ').attr({ "aria-dropeffect": "move" })
+                   // $(this).attr({ "aria-grabbed": "true" })
+                   // $('.droppable3 ').attr({ "aria-dropeffect": "move" })
                     $(ui.helper).css("z-Index", 100);
                     ui.helper.data('rejected', true);
                     ui.helper.data('original-position', ui.helper.offset());
@@ -1098,15 +1138,13 @@ var _ModuleCommon = (function () {
                 $(this).attr({ "originaltop": ob.top + "px", "originalleft": ob.left + "px" });
 
             })
+            this.AddCommonAttributes()
         },
         DropTwoImage: function ($item, draggableClass) {
             var pageData = _Navigator.GetCurrentPage();
 
             var droppedImg = $item.find("img").attr("alt")
-            $item.find("img").attr("alt", droppedImg + " dropped in droppable")
-            $item.attr({ "aria-grabbed": "false" })
-            $('.droppable1 ').attr({ "aria-dropeffect": "none" })
-
+           
             if (pageData.pageId != "p27") {
                 $item.appendTo(".draggablediv");
             }
@@ -1143,8 +1181,13 @@ var _ModuleCommon = (function () {
             $("#div_feedback").show();
             $("#div_feedback").css("display", "inline-block");
             $("#div_feedback .div_fdkcontent").load(fdbkUrl, function () {
-                // this.SetFeedbackTop()
-                $('html,body').animate({ scrollTop: document.body.scrollHeight }, 1000, function () { });
+                $("#div_feedback p:first").attr("tabindex", "-1")
+                if (iOS) {
+                    $("#div_feedback p:first").attr("role", "text")
+                }
+                $('html,body').animate({ scrollTop: document.body.scrollHeight }, delay, function () {
+                    $("#div_feedback p:first").focus();
+                });
             });
             _Navigator.SetPageStatus(true)
             $(".dragdiv").draggable({ disabled: true })
@@ -1165,22 +1208,11 @@ var _ModuleCommon = (function () {
                         for (var j = 0; j < pagereviewData.Images[i].Positions.length; j++) {
                             var image = pagereviewData.Images[i];
                             if (pagereviewData.Images[i].Positions[j].isCorrect == true) {
-                                if (image.imageDetails.alt != undefined) {
-                                    var _div = "<div class='reviewDiv Correct' style='z-index:10000;width:15px;height:25px;position:absolute;left:" + image.Positions[j].posX + "px;top:" + image.Positions[j].posY + "px;'><img src='" + image.imageDetails.Imagesrc + "'alt='" + image.imageDetails.alt + " correct dropped' style='width:" + image.imageDetails.width + "px;height:" + image.imageDetails.height + "px;float:left;' /><img src='assets/images/correct-icon.png' style='width:20px;height:20px;float:right;top:0px;position:absolute;' /></div>";
-                                } else {
-                                    var _div = "<div class='reviewDiv Correct' style='z-index:10000;width:15px;height:25px;position:absolute;left:" + image.Positions[j].posX + "px;top:" + image.Positions[j].posY + "px;'><img src='" + image.imageDetails.Imagesrc + "'alt='" + image.imageDetails.alt1 + " correct dropped' style='width:" + image.imageDetails.width + "px;height:" + image.imageDetails.height + "px;float:left;' /><img src='assets/images/correct-icon.png' style='width:20px;height:20px;float:right;top:0px;position:absolute;' /></div>";
-                                }
+                               var arialabel   =  image.imageDetails.arialabel + " dropped in bidsforkids droppable"
+                                var _div = "<div aria-label='"+arialabel+"' role='button' aria-disabled ='true' aria-pressed='false' class='reviewDiv Correct' style='z-index:10000;width:15px;height:25px;position:absolute;left:" + image.Positions[j].posX + "px;top:" + image.Positions[j].posY + "px;'><img src='" + image.imageDetails.Imagesrc + "' alt=''  aria-hidden='true'  style='width:" + image.imageDetails.width + "px;height:" + image.imageDetails.height + "px;float:left;' /><img alt='' aria-hidden='true' src='assets/images/correct-icon.png' style='width:20px;height:20px;float:right;top:0px;position:absolute;' /></div>";
+                                
                                 dropobj.append(_div)
-                            }
-                            else {
-                                if (image.imageDetails.alt != undefined) {
-                                    var _div = "<div class='reviewDiv InCorrect' style='z-index:10000;width:25px;height:25px;position:absolute;left:" + image.Positions[j].posX + "px;top:" + image.Positions[j].posY + "px;'><img src='" + image.imageDetails.Imagesrc + "'alt='" + image.imageDetails.alt + " incorrect dropped' style='width:" + image.imageDetails.width + "px;height:" + image.imageDetails.height + "px;float:left;' /><img src='assets/images/incorrect-icon.png' style='width:20px;height:20px;float:right;top:0px;position:absolute;' /></div>";
-                                } else {
-                                    var _div = "<div class='reviewDiv InCorrect' style='z-index:10000;width:25px;height:25px;position:absolute;left:" + image.Positions[j].posX + "px;top:" + image.Positions[j].posY + "px;'><img src='" + image.imageDetails.Imagesrc + "'alt='" + image.imageDetails.alt1 + " incorrect dropped' style='width:" + image.imageDetails.width + "px;height:" + image.imageDetails.height + "px;float:left;' /><img src='assets/images/incorrect-icon.png' style='width:20px;height:20px;float:right;top:0px;position:absolute;' /></div>";
-
-                                }
-                                appendImage.append(_div)
-                            }
+                            }                           
 
                         }
 
@@ -1190,6 +1222,7 @@ var _ModuleCommon = (function () {
 
 
             }
+            $(".dragdiv").hide();
 
         },
         DisplayDrangAndDropInReviewMode1: function () {
@@ -1205,16 +1238,21 @@ var _ModuleCommon = (function () {
                         if ($("#" + reviewData.Images[i].objId).closest(".k-element-box") != undefined) {
                             for (var j = 0; j < reviewData.Images[i].Positions.length; j++) {
                                 var image = reviewData.Images[i];
+                                var arialabel ;                                
                                 if (reviewData.Images[i].Positions[j].isCorrect == true) {
-                                    var _div = "<div class='reviewDiv'><img src='assets/images/correct-icon.png' style='width:20px;height:20px;left:0px;top:0px;position:absolute;' /></div>";
-                                    $("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " correct dropped")
+                                    arialabel = "Correct "+ image.imageDetails.arialabel + " dropped in " + image.imageDetails.droppable;
+                                  
+                                    var _div = "<div class='reviewDiv' ><img src='assets/images/correct-icon.png' alt='' aria-hidden='true' style='width:20px;height:20px;left:0px;top:0px;position:absolute;' /></div>";
+                                    //$("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " correct dropped")                                  
                                     $("#" + reviewData.Images[i].objId).append(_div);
                                 }
                                 else {
-                                    var _div = "<div class='reviewDiv'><img src='assets/images/incorrect-icon.png' style='width:20px;height:20px;left:0px;top:0px;position:absolute;' /></div>"
-                                    $("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " incorrect dropped")
+                                    arialabel ="Incorrect dropped "+image.imageDetails.arialabel;
+                                    var _div = "<div class='reviewDiv' ><img src='assets/images/incorrect-icon.png'  alt='' aria-hidden='true' style='width:20px;height:20px;left:0px;top:0px;position:absolute;' /></div>"
+                                    //$("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " incorrect dropped")
                                     $("#" + reviewData.Images[i].objId).append(_div);
                                 }
+                                $("#" + reviewData.Images[i].objId).attr({"aria-label":arialabel})
                             }
 
                         }
@@ -1238,18 +1276,24 @@ var _ModuleCommon = (function () {
                             var top = parseInt($("#" + reviewData.Images[i].objId).css("top"), 10);
                             left = left - 30;
                             var _div;
+                            var arialabel ;     
                             for (var j = 0; j < reviewData.Images[i].Positions.length; j++) {
                                 var image = reviewData.Images[i];
+                                var arialabel = "";
                                 if (reviewData.Images[i].Positions[j].isCorrect == true) {
-                                    $("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " correct dropped")
-                                    _div = "<div><img src='assets/images/correct-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' /></div>";
+                                    arialabel = "Correct "+ image.imageDetails.arialabel + " dropped in " + image.imageDetails.droppable;
+                                    //$("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " correct dropped")
+                                    _div = "<div aria-hidden='true'><img src='assets/images/correct-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' alt='' aria-hidden='true' /></div>";
                                     appendImage.append(_div);
                                 }
                                 else {
-                                    $("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " incorrect dropped")
-                                    _div = "<div><img src='assets/images/incorrect-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' /></div>";
+                                   
+                                    arialabel ="Incorrect dropped "+image.imageDetails.arialabel;
+                                    //$("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " incorrect dropped")
+                                    _div = "<div aria-hidden='true'><img src='assets/images/incorrect-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' alt='' aria-hidden='true' /></div>";
                                     appendImage.append(_div);
                                 }
+                                $("#" + reviewData.Images[i].objId).attr({"aria-label":arialabel})
                             }
 
                         }
@@ -1273,21 +1317,23 @@ var _ModuleCommon = (function () {
                             var top = parseInt($("#" + reviewData.Images[i].objId).css("top"), 10);
                             left = left - 25;
                             var _div;
-
+                            var arialabel = "";
                             for (var j = 0; j < reviewData.Images[i].Positions.length; j++) {
                                 var image = reviewData.Images[i];
                                 if (reviewData.Images[i].Positions[j].isCorrect == true) {
-                                    $("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " correct dropped")
-                                    _div = "<div><img src='assets/images/correct-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' /></div>";
+                                    arialabel = "Correct "+ image.imageDetails.arialabel + " dropped in " + image.imageDetails.droppable;
+                                    _div = "<div><img src='assets/images/correct-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' alt='' aria-hidden='true' /></div>";
                                     appendImage.append(_div);
                                 }
                                 else {
-                                    $("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " incorrect dropped")
-                                    _div = "<div><img src='assets/images/incorrect-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' /></div>";
+                                    arialabel ="Incorrect dropped "+image.imageDetails.arialabel;
+                                    _div = "<div><img src='assets/images/incorrect-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' alt='' aria-hidden='true' /></div>";
                                     appendImage.append(_div);
                                 }
+                                $("#" + reviewData.Images[i].objId).attr({"aria-label":arialabel})
 
                             }
+                            
                         }
                     }
                 }
@@ -1305,7 +1351,7 @@ var _ModuleCommon = (function () {
             $("#div_feedback .div_fdkcontent").load(fdbkUrl, function () {
             });
         },
-        AddDragReviewData: function (box, isCorrect) {
+        AddDragReviewData: function (box, isCorrect,droppable) {
             debugger;
             var kbox
             if (box.helper != undefined)
@@ -1314,9 +1360,19 @@ var _ModuleCommon = (function () {
                 kbox = box;
             var currentPage = _Navigator.GetCurrentPage();
             var objId = kbox.attr("id");
+            var droppabletext="";
+            if(isCorrect)
+            {
+                droppabletext = droppable.text();
+            }
+            else
+            {
+                droppabletext="Incorrect";
+            }
+           
             if (objId == undefined)
                 objId = kbox.attr("data-id")
-            var image = { Imagesrc: kbox.find("img").attr("src"), alt: kbox.find("img").attr("alt"), alt1: kbox.find("img").attr("alt1"), width: parseInt(kbox.find("img").width(), 10), height: parseInt(kbox.find("img").height(), 10) };
+            var image = { Imagesrc: kbox.find("img").attr("src"), arialabel: kbox.attr("data-aria-label"),  width: parseInt(kbox.find("img").width(), 10), height: parseInt(kbox.find("img").height(), 10) ,"droppable":droppabletext};
             var originalPosition;
             var dragPosition;
             if (box.originalPosition != undefined) {
@@ -1340,9 +1396,14 @@ var _ModuleCommon = (function () {
                 posX = parseInt(kbox.css("left"), 10);
                 posY = parseInt(kbox.css("top"), 10);
             }
-            else {
+            else if(dragPosition!=undefined){
                 posX = dragPosition.left;
                 posY = dragPosition.top;
+            }
+            else
+            {
+                posX = 0;
+                posY  = 0;
             }
 
             if (reviewData != undefined) {
@@ -1406,7 +1467,10 @@ var _ModuleCommon = (function () {
                 reviewData.push(_obj);
 
             }
-
+            droppabletext = droppabletext == "Incorrect" ? droppabletext+" dropped " + kbox.attr("data-aria-label"):  kbox.attr("data-aria-label") +" Dropped in " + droppabletext;
+            $(".labelassertive").text("")
+            $(".labelassertive").text(droppabletext)
+           
 
         }
 

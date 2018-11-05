@@ -129,7 +129,7 @@ var _Assessment = (function () {
 			iscorrectimg.closest("span").show();
 			iscorrectimg.attr("aria-label", "Correct option selected");
 			gRecordData.Questions[currentQuestionIndex].IsAnswered = true;
-			$(".assessmentSubmit").hide();
+			//$(".assessmentSubmit").hide();
 			$("#linknext").k_enable();
 			$("#linkprevious").k_enable();
 

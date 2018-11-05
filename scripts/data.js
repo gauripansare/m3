@@ -155,7 +155,7 @@ var _PData = {
     "p10": {
        
         EmbedSettings: {
-            validatearray: ["bfk_john","bfk_sara"],
+            validatearray: ["BFK_John","BFK_Sara"],
             action: "next",
             id:"inputtext"
         }
@@ -186,7 +186,7 @@ var _PData = {
     "p12": {
        
         EmbedSettings: {
-            validatearray: ["bfk_john","bfk_sara"],
+            validatearray: ["BFK_John","BFK_Sara"],
             action: "next",
             id:"inputtext"
         }
@@ -198,7 +198,7 @@ var _PData = {
     "p14": {
        
         EmbedSettings: {
-            validatearray: ["bfk"],
+            validatearray: ["BFK"],
             action: "next",
             id:"inputtext"
         }
@@ -234,7 +234,7 @@ var _PData = {
     "p18": {
        
         EmbedSettings: {
-            validatearray: ["brochure design" , "sponsor ads"],
+            validatearray: ["Brochure Design" , "Sponsor Ads"],
             action: "next",
             id:"inputtext"
         }
@@ -287,7 +287,7 @@ var _PData = {
     "p20": {
         
         EmbedSettings: {
-            validatearray: ["brochure design" , "sponsor ads"],
+            validatearray: ["Brochure Design" , "Sponsor Ads"],
             action: "next",
             id:"inputtext"
         }
@@ -396,7 +396,7 @@ var _PData = {
     "p26": {
        
         EmbedSettings: {
-            validatearray: ["diver_ad_bfk"],
+            validatearray: ["Diver_AD_BFK"],
             action: "next",
             id:"inputtext"
         }
