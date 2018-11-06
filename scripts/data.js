@@ -97,7 +97,7 @@ var _PData = {
     "p6": {
        
         EmbedSettings: {
-            validatearray: ["bidsforkids"],
+            validatearray: ["BidsforKids"],
             action: "next",
             feedbackurl: "feedbackp8.htm",
             id:"inputtext"
@@ -396,7 +396,7 @@ var _PData = {
     "p26": {
        
         EmbedSettings: {
-            validatearray: ["Diver_AD_BFK"],
+            validatearray: ["Diver_Ad_BFK"],
             action: "next",
             id:"inputtext"
         }

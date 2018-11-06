@@ -435,6 +435,10 @@ var _ModuleCommon = (function () {
                 this.DragImages();
             }
             if (!_Navigator.IsAnswered() && (currentPageData.pageId == "p13" || currentPageData.pageId == "p15" || currentPageData.pageId == "p21" || currentPageData.pageId == "p27")) {
+                if(iOS)
+                {
+                    $(".labelassertive").attr("role","alert")
+                }
                 if (currentPageData.pageId == "p27") {
                     this.DragTwoImage(true);
                 }
@@ -988,7 +992,7 @@ var _ModuleCommon = (function () {
                     top1 = top1 + 70;
                 }
                 if (i == 5) {
-                    
+                    $(".labelassertive").text("");
                     $('.filedropped').each(function(){$(this).removeAttr("aria-hidden")});
                     _ModuleCommon.DragDropFeedback();
 
@@ -1149,17 +1153,20 @@ var _ModuleCommon = (function () {
                 var currentPageData = _Navigator.GetCurrentPage();
                 if (currentPageData.pageId == "p13") {
                     if (i == 4) {
+                        $(".labelassertive").text("");
                         _ModuleCommon.DragDropFeedback();
                     }
 
                 }
                 else if (currentPageData.pageId == "p15" || currentPageData.pageId == "p21") {
                     if (i == 3) {
+                        $(".labelassertive").text("");
                         _ModuleCommon.DragDropFeedback();
                     }
                 }
                 else if (currentPageData.pageId == "p27") {
                     if (i == 5) {
+                        $(".labelassertive").text("");
                         _ModuleCommon.DragDropFeedback();
                     }
                 }
