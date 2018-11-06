@@ -481,7 +481,7 @@ var _ModuleCommon = (function () {
             }
         },
         PresenterMode: function () {
-            debugger
+           
             if ($("#div_feedback").length > 0) {
                 $("#div_feedback").hide();
 
@@ -1194,7 +1194,7 @@ var _ModuleCommon = (function () {
             this.EnableNext();
         },
         DisplayDrangAndDropInReviewMode: function () {
-            debugger
+           
             $(".draggable1").k_disable();
             $(".droppable1").removeClass("droppable1")
             $(".reviewDiv").remove();
@@ -1226,8 +1226,6 @@ var _ModuleCommon = (function () {
 
         },
         DisplayDrangAndDropInReviewMode1: function () {
-            debugger;
-
             var reviewData = this.GetPageReviewData();
             $(".reviewDiv").remove();
             var appendImage = $(".wrapperimage");
@@ -1352,7 +1350,6 @@ var _ModuleCommon = (function () {
             });
         },
         AddDragReviewData: function (box, isCorrect,droppable) {
-            debugger;
             var kbox
             if (box.helper != undefined)
                 kbox = box.helper;

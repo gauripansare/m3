@@ -25,8 +25,8 @@ $(document).on("click", ".qheight", function (event) {
     $(this).addClass("optionselected");
 
 });
-var hotspotclicked = false;
-var count = "0";
+
+var hotspotclicked = false;;
 var hotspot;
 $(document).on("click", ".divHotSpot", function (event) {
     if (_Navigator.IsPresenterMode()) {
@@ -110,52 +110,46 @@ $(document).on("click", "#linknext", function (event) {
 
 $(document).on("click", ".hintlink", function (event) {
     if ($(this).k_IsDisabled()) return;
-    var open = "open;"
+   var open = "open;"
     if ($(this).hasClass("expanded")) {
         $(".hintlink").removeClass("expanded")
         $(".hintlink").attr("aria-expanded", "false")
         $(".hintcontainer").slideUp(100);
-        $(".hintlink .hintlinkspan").css({
-            "color": "#047a9c",
-            "border-bottom": "1px solid #047a9c"
-        })
-        $(this).find("path").css({
-            "fill": "#047a9c"
-        })
         $(".pageheading").focus();
         open = "close";
-    } else {
+    }
+    else {
         $(".hintcontainer").slideDown(100, function () {
             $(".hintlink").addClass("expanded");
-            $(".hintlink").attr("aria-expanded", "true");
-            $(".hintcontainer .hintcontent").find("p:first").attr("tabindex", "-1")
-            if (iOS) {
-                $(".hintcontainer .hintcontent").find("p:first").attr("role", "text")
+            $(".hintlink").attr("aria-expanded", "true");  
+            $(".hintcontainer .hintcontent").find("p:first").attr("tabindex","-1")
+            if(iOS)
+            {
+                $(".hintcontainer .hintcontent").find("p:first").attr("role","text")
             }
-            $(".hintcontainer .hintcontent").find("p:first").focus();
+            $(".hintcontainer .hintcontent").find("p:first").focus(); 
         });
-        $(".hintlink .hintlinkspan").css({
-            "color": "#b22222",
-            "border-bottom": "1px solid #b22222"
-        })
-        $(this).find("path").css({
-            "fill": "#b22222"
-        })
     }
     if (_Navigator.IsRevel()) {
         LifeCycleEvents.OnInteraction("Hint button click. Hint " + open)
     }
+     if(touchend){
+        $(this).mouseout();
+        touchend = false;
+    }
+   
 });
 $(document).on("click", ".closehintlink", function (event) {
     if ($(this).k_IsDisabled()) return;
     $(".hintlink").removeClass("expanded")
     $(".hintlink").attr("aria-expanded", "false")
-    $(".hintcontainer").slideUp(100, function () { $("h2.pageheading").focus(); });
+    $(".hintcontainer").slideUp(100,function(){$("h2.pageheading").focus();});
     if (_Navigator.IsRevel()) {
         LifeCycleEvents.OnInteraction("Hint button click. Hint closed")
     }
 
 });
+
 $(document).on("keydown", "input.EmbededElement", function (event) {
     if ($(this).k_IsDisabled()) return;
     if ($(this).attr("disabled") || $(this).hasClass("disabled")) {
@@ -179,7 +173,8 @@ $(window).resize(function () {
 
 
 $(document).on('click', ".activityimg", function (event) {
-    if ($(this).k_IsDisabled()) return;
+    if ($(".divHotSpot").hasClass("disabled") || $(".divHotSpot").length == 0)
+        return;
     _ModuleCommon.AddEditPropertiesClick(event);
 });
 
@@ -192,21 +187,35 @@ $(document).on('click', ".reviewsubmit", function (event) {
     if ($(this).k_IsDisabled()) return;
     _Navigator.Next();
 });
-$(document).on('mouseover', ".hintlink", function (event) {
-    if ($(this).k_IsDisabled()) return;
-    $(".hintlink .hintlinkspan").css({ "color": "#b22222", "border-bottom": "1px solid #b22222" })
-    $(this).find("path").css({ "fill": "#b22222" })
+
+var touchend = false;
+$(document).on('touchstart', ".hintlink", function (event) {
+    mouseenter();
+    touchend = false;
+});
+$(document).on('touchend ', ".hintlink", function (event) {
+    mouseleave();
+    touchend = true;
 });
 
-$(document).on('mouseout', ".hintlink", function (event) {
-    $(".hintlink .hintlinkspan").css({
-        "color": "#047a9c",
-        "border-bottom": "1px solid #047a9c"
-    })
-    $(this).find("path").css({
-        "fill": "#047a9c"
-    })
+
+$(document).on('mouseenter', ".hintlink", function (event) {
+    mouseenter();
 });
+
+$(document).on('mouseleave', ".hintlink", function (event) {
+    mouseleave();
+});
+
+function mouseenter(){
+    $(".hintlink .hintlinkspan").css({ "color": "#b22222", "border-bottom": "1px solid #b22222" })
+    $(".hintlink").find("path").css({ "fill": "#b22222" })    
+}
+function mouseleave(){
+    $(".hintlink .hintlinkspan").css({ "color": "#047a9c", "border-bottom": "1px solid #047a9c" })
+    $(".hintlink").find("path").css({ "fill": "#047a9c" })
+}
+
 
 $(document).on("mouseup", ".dragdiv", function (event) {
     if (window.event) {
@@ -338,13 +347,7 @@ $(document).on('click', ".inputcircle", function (event) {
     $(this).next(".inpputtext").trigger("click");
 });
 
-$("input").keydown(function () {
-    $("input").css("background-color", "yellow");
-});
 
-$("input").keyup(function (event) {
-    $("input").css("background-color", "pink");
-});
 
 window.onload = function () {
     _ScormUtility.Init();

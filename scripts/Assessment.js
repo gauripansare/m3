@@ -290,7 +290,7 @@ var _Assessment = (function () {
 			}
 		},
 		SetCustomarialabelforRadio: function () {
-			debugger;
+			
 			$(".question-band input[type='radio']").each(function () {
 				var ischecked = "\n radio button unavailable"
 				if ($(this).prop("checked") == "true" || $(this).prop("checked") == true) {

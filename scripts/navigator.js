@@ -402,10 +402,8 @@ var _Navigator = (function () {
                                 if (_Navigator.IsPresenterMode()) {
                                     _ModuleCommon.PresenterMode();
                                 }
-                                if (_currentPageObject.pageId == "p2") {
-                                    $("#titleheader").focus();
-                                }
-                                else if (_currentPageId != quizpageid) {   
+                               
+                                if (_currentPageId != quizpageid) {   
                                     if(!_Navigator.IsAnswered() && _PData[_currentPageId].EmbedSettings !=undefined
                                     )
                                     {
@@ -432,6 +430,7 @@ var _Navigator = (function () {
                         else
                         {
                             OnPageLoad();
+                           
                         }
 
                         if (_currentPageId == quizpageid)//  change to assessment id
@@ -458,6 +457,9 @@ var _Navigator = (function () {
                         }
 
                         _Navigator.GetBookmarkData();
+                        if (_currentPageObject.pageId == "p2") {
+                            $("#titleheader").focus();
+                        }
                     });
                 })
             }
