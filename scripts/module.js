@@ -970,11 +970,10 @@ var _ModuleCommon = (function () {
             var droppedImgalabel = $item.attr("aria-label")
             $item.attr("aria-label", droppedImgalabel + " dropped in bidsforkids folder")
             $item.css("border", "none");
-            //$item.removeAttr( "aria-grabbed")
+           
             $('.filedropped').k_disable();
             $('.filedropped').attr({"aria-hidden":"true"})
-            //$('.droppable1 ').attr({ "aria-dropeffect": "none" })
-            // addClass("disabled").attr("aria-disabled","true")
+           
             var top1 = 0;
             var top2 = 0;
             var i = 0;
@@ -989,10 +988,7 @@ var _ModuleCommon = (function () {
                     top1 = top1 + 70;
                 }
                 if (i == 5) {
-                    // $(".filedropped").each(function () {
-                    //     var fileddropattr = $(this).find("img").attr("alt1")
-                    //     $(this).find("img").attr("alt", fileddropattr).removeAttr("alt1")
-                    // })
+                    
                     $('.filedropped').each(function(){$(this).removeAttr("aria-hidden")});
                     _ModuleCommon.DragDropFeedback();
 
@@ -1008,8 +1004,7 @@ var _ModuleCommon = (function () {
                 containment: ".wrapperimage",
                 cursor: "move",
                 start: function (event, ui) {
-                    //$(this).attr({ "aria-grabbed": "true" })
-                    //$('.droppable1 ').attr({ "aria-dropeffect": "move" })
+                   
                     $(ui.helper).css("z-Index", 100);
                     ui.helper.data('rejected', true);
                     ui.helper.data('original-position', ui.helper.offset());
@@ -1060,8 +1055,7 @@ var _ModuleCommon = (function () {
                 containment: ".wrapperimage",
                 cursor: "move",
                 start: function (event, ui) {
-                   // $(this).attr({ "aria-grabbed": "true" })
-                   // $('.droppable2 ').attr({ "aria-dropeffect": "move" })
+                  
                     $(ui.helper).css("z-Index", 100);
                     ui.helper.data('rejected', true);
                     ui.helper.data('original-position', ui.helper.offset());
@@ -1110,8 +1104,7 @@ var _ModuleCommon = (function () {
                 containment: ".wrapperimage",
                 cursor: "move",
                 start: function (event, ui) {
-                   // $(this).attr({ "aria-grabbed": "true" })
-                   // $('.droppable3 ').attr({ "aria-dropeffect": "move" })
+                   
                     $(ui.helper).css("z-Index", 100);
                     ui.helper.data('rejected', true);
                     ui.helper.data('original-position', ui.helper.offset());
@@ -1241,13 +1234,13 @@ var _ModuleCommon = (function () {
                                     arialabel = "Correct "+ image.imageDetails.arialabel + " dropped in " + image.imageDetails.droppable;
                                   
                                     var _div = "<div class='reviewDiv' ><img src='assets/images/correct-icon.png' alt='' aria-hidden='true' style='width:20px;height:20px;left:0px;top:0px;position:absolute;' /></div>";
-                                    //$("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " correct dropped")                                  
+                                                                     
                                     $("#" + reviewData.Images[i].objId).append(_div);
                                 }
                                 else {
                                     arialabel ="Incorrect dropped "+image.imageDetails.arialabel;
                                     var _div = "<div class='reviewDiv' ><img src='assets/images/incorrect-icon.png'  alt='' aria-hidden='true' style='width:20px;height:20px;left:0px;top:0px;position:absolute;' /></div>"
-                                    //$("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " incorrect dropped")
+                                 
                                     $("#" + reviewData.Images[i].objId).append(_div);
                                 }
                                 $("#" + reviewData.Images[i].objId).attr({"aria-label":arialabel})
@@ -1279,15 +1272,13 @@ var _ModuleCommon = (function () {
                                 var image = reviewData.Images[i];
                                 var arialabel = "";
                                 if (reviewData.Images[i].Positions[j].isCorrect == true) {
-                                    arialabel = "Correct "+ image.imageDetails.arialabel + " dropped in " + image.imageDetails.droppable;
-                                    //$("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " correct dropped")
+                                    arialabel = "Correct "+ image.imageDetails.arialabel + " dropped in " + image.imageDetails.droppable;                                   
                                     _div = "<div aria-hidden='true'><img src='assets/images/correct-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' alt='' aria-hidden='true' /></div>";
                                     appendImage.append(_div);
                                 }
                                 else {
                                    
-                                    arialabel ="Incorrect dropped "+image.imageDetails.arialabel;
-                                    //$("#" + reviewData.Images[i].objId).find("img").attr("alt", image.imageDetails.alt + " incorrect dropped")
+                                    arialabel ="Incorrect dropped "+image.imageDetails.arialabel;  
                                     _div = "<div aria-hidden='true'><img src='assets/images/incorrect-icon.png' style='width:20px;height:20px;left:" + left + "px;top:" + top + "px;position:absolute;' alt='' aria-hidden='true' /></div>";
                                     appendImage.append(_div);
                                 }
@@ -1302,7 +1293,6 @@ var _ModuleCommon = (function () {
         },
 
         DisplayDrangAndDropInReviewMode3: function () {
-
             var reviewData = this.GetPageReviewData();
             var appendImage = $(".wrapperimage");
             $(".reviewDiv").remove();
