@@ -168,7 +168,7 @@ var _Assessment = (function () {
 			$("input[type='radio']").k_disable();
 
 			if (isIE11version) {
-				$("input[type='radio']").removeAttr("aria-disabled");
+				//$("input[type='radio']").removeAttr("aria-disabled");
 				this.SetCustomarialabelforRadio();
 				//$("input[type='radio']").removeAttr("disabled")
 			}
@@ -247,12 +247,13 @@ var _Assessment = (function () {
 				$("#Summary").find("input[type='radio']").prop("readonly", "readonly");
 				$("#Summary").find("input[type='radio']").k_disable();
 				if (isIE11version) {
-					$("#Summary").find("input[type='radio']").removeAttr("aria-disabled");
+				//	$("#Summary").find("input[type='radio']").removeAttr("aria-disabled");
+					
 				}
 
 			}
 			
-			$("#Summary input[type='radio']").each(function(){$(this).unwrap()});
+			//$("#Summary input[type='radio']").each(function(){$(this).unwrap()});
 			if (isIE11version) {
 				this.SetCustomarialabelforRadio();
 
@@ -302,6 +303,7 @@ var _Assessment = (function () {
 				$(this).prev(".iscorrect").before(radioalabel);
 				$(this).attr("aria-hidden", "true");
 				$(this).next().attr("aria-hidden", "true");
+				$(this).attr("disabled","true")
 
 			})
 		},

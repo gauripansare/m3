@@ -331,6 +331,7 @@ var _Navigator = (function () {
         },
         LoadPage: function (pageId, jsonObj) {
              $(".hintcontainer").hide()
+             $(".header-content-dock").css({"visibility":"hidden"});
             if (_Navigator.IsRevel() && _currentPageId !=undefined && _currentPageId !="") {
                LifeCycleEvents.OnUnloadFromPlayer()
             }
@@ -348,6 +349,7 @@ var _Navigator = (function () {
             $("#header-progress").show();
             $("#header-title").show();
             $("footer").show();
+           
             $('html,body').css({ scrollTop: 0 })
             if (_currentPageObject.isStartPage != undefined && _currentPageObject.isStartPage) {
                 $("#linkprevious").k_disable();
@@ -381,9 +383,7 @@ var _Navigator = (function () {
             {               
                 $("#progressdiv").css("margin-left", "-15px")
             }
-            if (_Navigator.GetCurrentPage().pageId == "p30" && ( _Navigator.IsAnswered() || _Navigator.IsPresenterMode())) {
-                $(".activityimg").attr("src", "assets/images/m3-s7-p3-new.jpg")
-            }
+          
             if (_currentPageObject.isStartPage) {
                 $(".main-content").load(pageUrl, function () {
                     OnPageLoad();
@@ -394,6 +394,9 @@ var _Navigator = (function () {
                 $(".main-content").fadeTo(250, 0.25, function () {
                     $(".main-content").load(pageUrl, function () {
                         $(this).fadeTo(600, 1)
+                        if (_Navigator.GetCurrentPage().pageId == "p30" && ( _Navigator.IsAnswered() || _Navigator.IsPresenterMode())) {
+                            $(".activityimg").attr("src", "assets/images/m3-s7-p3-new.jpg")
+                        }
                         if ($(".activityimg").length > 0) {
                             $('.activityimg').load(function () {
                                 OnPageLoad();
@@ -565,7 +568,7 @@ var _Navigator = (function () {
         UpdateProgressBar: function () {
             var progData = this.GetProgressData();
             var lprog_pecent = (progData * 100 / progressLevels[0]).toFixed(0);
-            $(".progressDiv").text("Progress: " + lprog_pecent + "%");
+            $(".progressdiv").text("Progress: " + lprog_pecent + "%");
             $(".progressFg").css("width", lprog_pecent + "%");
 
 
@@ -771,6 +774,9 @@ var _Navigator = (function () {
         GetPackageType: function () {
             return packageType;
         },
+        GetQuizPageId:function(){
+            return quizpageid;
+        }
     };
 })();
 

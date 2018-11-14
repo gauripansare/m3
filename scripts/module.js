@@ -28,7 +28,9 @@ jQuery.fn.extend({
         this.addClass('disabled').attr("aria-disabled", "true").attr("disabled", "disabled");
         if(isIE11version)
         {
-            $(this).removeAttr("disabled")
+            if($(this).attr("type")!=undefined && $(this).attr("type") == "radio")
+                return;
+           $(this).removeAttr("disabled")
         }
         return;
     },
@@ -736,14 +738,15 @@ var _ModuleCommon = (function () {
             $("#div_feedback").show();
             $("#div_feedback").css("display", "inline-block");
             $("#div_feedback .div_fdkcontent").load(fdbkUrl, function () {
-                // this.SetFeedbackTop()   
+                
                 $("#div_feedback p:first").attr("tabindex", "-1")
                 if (iOS) {
                     $("#div_feedback p:first").attr("role", "text")
                 }
-                $('html,body').animate({ scrollTop: document.body.scrollHeight }, delay, function () {
+                //$('html,body').animate({ scrollTop: document.body.scrollHeight }, delay, function () {
+                    window.scrollTo(0,document.body.scrollHeight)
                     $("#div_feedback p:first").focus();
-                });
+                //});
             });
             $("input").k_disable();
             this.EnableNext();
@@ -765,20 +768,30 @@ var _ModuleCommon = (function () {
             $("#div_feedback").show();
             $("#div_feedback").css("display", "inline-block");
             $("#div_feedback .div_fdkcontent").load(fdbkUrl, function () {
-                // this.SetFeedbackTop()   
+                
                 $("#div_feedback p:first").attr("tabindex", "-1")
-                if (iOS) {
-                    $("#div_feedback p:first").attr("role", "text")
+                if(iOS)
+                {
+                    $("#div_feedback p:first").attr("role","text")
                 }
-                $('html,body').animate({ scrollTop: document.body.scrollHeight }, delay, function () {
+                //$('html,body').animate({ scrollTop: document.body.scrollHeight }, delay, function () {
+                    window.scrollTo(0,document.body.scrollHeight)
                     $("#div_feedback p:first").focus();
-                });
+                //});
             });
+            if(_Navigator.GetCurrentPage().pageId == "p30")
+            {
+                $(".activityimg").attr("src","assets/images/m3-s7-p3-new.jpg")
+            }
             $(".divHotSpot").k_disable();
             this.EnableNext();
         },
         HotspotNext: function () {
-            _Navigator.Next();
+            if(isAndroid)
+            {
+                $("#progressdiv").focus();
+            }
+            _Navigator.Next();           
         },
         InputNext: function () {
             _Navigator.Next();
@@ -947,7 +960,7 @@ var _ModuleCommon = (function () {
                     $(this).css({ "background-color": "transparent", "opacity": "1", "border": "none" });
                     ui.helper.data('rejected', false);
                     _ModuleCommon.DropImage(ui.draggable);
-                    _ModuleCommon.AddDragReviewData(ui, true);
+                    _ModuleCommon.AddDragReviewData(ui, true,$(this));
 
 
                 }
@@ -1185,9 +1198,10 @@ var _ModuleCommon = (function () {
                 if (iOS) {
                     $("#div_feedback p:first").attr("role", "text")
                 }
-                $('html,body').animate({ scrollTop: document.body.scrollHeight }, delay, function () {
+                //$('html,body').animate({ scrollTop: document.body.scrollHeight }, delay, function () {
+                    window.scrollTo(0,document.body.scrollHeight)
                     $("#div_feedback p:first").focus();
-                });
+                //});
             });
             _Navigator.SetPageStatus(true)
             $(".dragdiv").draggable({ disabled: true })
