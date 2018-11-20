@@ -258,11 +258,13 @@ var _Assessment = (function () {
 				this.SetCustomarialabelforRadio();
 
 		     }
+			 if (gRecordData.Score == undefined || gRecordData.Score == "") {
+				gRecordData.Score = score;
+			}
+			var perscore = score / parseInt(gRecordData.AssessmentScore) * 100;
+			$("#ScoreSummary").text("Score: " + perscore + "%");
 			if (gRecordData.Status == "Started") {
 				gRecordData.Status = "Completed";
-				gRecordData.Score = score;
-				var perscore = gRecordData.Score / parseInt(gRecordData.AssessmentScore) * 100;	
-				$("#ScoreSummary").text("Score: " + perscore + "%");
 				this.SetScore(perscore);
 			}
 			if(_Navigator.IsPresenterMode())

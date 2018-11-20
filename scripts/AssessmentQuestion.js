@@ -3,8 +3,7 @@
     AssessmentScore: "4",
     VisitedNumberOfPages: "0",
     LastVisitedPage: "", // UserSelectedOptionId will be used to jump to the unattempted question
-    RecordTitle: "How Does Barbara Corcoran Pick Her Investments on Shark Tank?",
-    LandingPageURL: "record2_landing.htm",
+  
     QuestionSequence: "Numbers", // this can be used later if different display style is required
     OptionSequence: "LowerAlphabets", // this can be used later if different display style is required
     RandomizeQuestions: true,
