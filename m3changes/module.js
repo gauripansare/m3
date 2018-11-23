@@ -909,7 +909,7 @@ var _ModuleCommon = (function () {
         },
         AppendCss: function () {
             if (isIE11version) {
-                $(".hintDiv").css("margin-left", "383px")
+                //ATUL; $(".hintDiv").css("margin-left", "383px")
 
             }
             if (isAndroid || iOS) {
