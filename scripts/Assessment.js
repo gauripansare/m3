@@ -257,14 +257,17 @@ var _Assessment = (function () {
 			if (isIE11version) {
 				this.SetCustomarialabelforRadio();
 
-		     }
-			 if (gRecordData.Score == undefined || gRecordData.Score == "") {
+			 }
+			 if(gRecordData.Score == undefined || gRecordData.Score == "")
+			 {
 				gRecordData.Score = score;
-			}
-			var perscore = score / parseInt(gRecordData.AssessmentScore) * 100;
-			$("#ScoreSummary").text("Score: " + perscore + "%");
+			 }
+			 var perscore = gRecordData.Score / parseInt(gRecordData.AssessmentScore) * 100;	
+				$("#ScoreSummary").text("Score: " + perscore + "%");
 			if (gRecordData.Status == "Started") {
 				gRecordData.Status = "Completed";
+				gRecordData.Score = score;
+				
 				this.SetScore(perscore);
 			}
 			if(_Navigator.IsPresenterMode())
