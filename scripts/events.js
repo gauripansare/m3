@@ -189,7 +189,9 @@ $(document).on('click', ".activityimg", function (event) {
 
 $(document).on('click', ".startbtn", function (event) {
     if ($(this).k_IsDisabled()) return;
+    
     _Navigator.Next();
+    //_Navigator.LoadPage("p10")
 });
 $(document).on('click', ".reviewsubmit", function (event) {
     if ($(this).k_IsDisabled()) return;
@@ -302,7 +304,7 @@ window.addEventListener("scroll", function () {
 
 }, false);
 
-$(document).on("mouseup", ".dragdiv", function (event) {
+$(document).on("keyup", ".dragdiv", function (event) {
     if (window.event) {
         key = window.event.keyCode;
     } else if (event) {
@@ -335,7 +337,7 @@ $(document).on("click", ".dragdiv", function (event) {
 
 
 });
-$(document).on("mousedown", ".droppable1", function (event) {
+$(document).on("keyup", ".droppable1", function (event) {
     if (window.event) {
         key = window.event.keyCode;
     } else if (event) {

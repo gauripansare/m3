@@ -84,6 +84,8 @@ var _ModuleCommon = (function () {
                         }
                     }
                 }
+                if(fdkurl!=undefined)
+                {
                 fdkurl = _Settings.dataRoot + "feedbackdata/" + fdkurl;
                 $("#div_feedback").show();
                 $("#div_feedback").css("display", "inline-block");
@@ -91,6 +93,7 @@ var _ModuleCommon = (function () {
                     //this.SetFeedbackTop()
                     $('html,body').animate({ scrollTop: 0 }, 0, function () { });
                 });
+                }
             }
         },
         DisplayInstructorReviewMode: function () {
@@ -967,8 +970,9 @@ var _ModuleCommon = (function () {
             });
         },
         AddCommonAttributes:function(){
+            
             $(".dragdiv").each(function(){
-                $(this).attr({"role":"button","aria-pressed":"false","aria-label": $(this).find("img").attr("alt"),"data-aria-label" : $(this).find("img").attr("alt")});
+                $(this).attr({"role":"button","aria-pressed":"false","aria-label": $(this).find("img").attr("alt"),"data-aria-label" : $(this).find("img").attr("alt"),"tabindex":"0"});
 
                $(this).find("img").removeAttr("alt");
                if(!iOS)

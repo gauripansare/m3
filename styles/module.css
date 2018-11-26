@@ -413,8 +413,7 @@
     text-align: center;
 }
 .accessibility{
-    font-size: 0;
-    opacity: 0;
+     opacity: 0;
 }
 /*presenter Mode css End*/
 
@@ -597,9 +596,16 @@
       border: 0px solid rgb(0, 0, 0);
       display: block;
   }
-  .accessibility{
-      font-size: 0;
+  .accessibility{    
       opacity: none;
+      top:0px;
+      left: 0px;
+  }
+  .acctextentryreview{
+    opacity: 0;
+    top:0px;
+    left: 0px;
+    position: absolute;
   }
   
   

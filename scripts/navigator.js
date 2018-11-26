@@ -1,7 +1,7 @@
 ﻿//This api will contain navigation logic and page load.
 //It will also handle the question navigation if the page is having multiple questions.
 var _Navigator = (function () {
-    var packageType = "presenter";//presenter/scorm/revel
+    var packageType = "";//presenter/scorm/revel
     var _currentPageId = "";
     var _currentPageObject = {};
     var progressLevels = [35];
@@ -401,32 +401,36 @@ var _Navigator = (function () {
                             $('.activityimg').load(function () {
                                 OnPageLoad();
                                 //console.log("loaded"+_currentPageId)
-                              
+                                
                                 if (_Navigator.IsPresenterMode()) {
                                     _ModuleCommon.PresenterMode();
                                 }
-                               
-                                if (_currentPageId != quizpageid) {   
-                                    if(!_Navigator.IsAnswered() && _PData[_currentPageId].EmbedSettings !=undefined
+                                if(!_Navigator.IsAnswered() && _PData[_currentPageId].EmbedSettings !=undefined
                                     )
                                     {
                                         $("input[type='text']").focus()
                                     }
-                                    else if(isAndroid)
-                                    {
-                                        window.location.hash = '#progressdiv'
+                               
+                                else if (_currentPageObject.pageId == "p2") {
+                                    $("#titleheader").focus();
+                                }
+
+                                else if ((isiPhone || isAndroid) && _NData[_currentPageId].isLoaded != undefined && _NData[_currentPageId].isLoaded == true) {//iphone android on previous focus is set to header
+                                    $("h2").focus();
+                                }
+                                else {
+                                    //$(".header-informarion .hintlink").focus();
+                                    //$("h2").focus();
+                                    if (isChrome && !isAndroid) {
+                                        $("h2").focus();
                                     }
-                                    else
-                                    {
-                                        if(isiPhone)
-                                        {
-                                            $("#progressdiv").attr("role","text")
-                                        }
+                                    else {
                                         $("#progressdiv").focus();
                                     }
-                                   
+                                    // setReader("progressdiv");
+
                                 }
-                                event.preventDefault();
+                                _NData[_currentPageId].isLoaded = true;
 
                             });
                         }
