@@ -191,7 +191,7 @@ $(document).on('click', ".startbtn", function (event) {
     if ($(this).k_IsDisabled()) return;
     
     _Navigator.Next();
-    //_Navigator.LoadPage("p10")
+   // _Navigator.LoadPage("p13")
 });
 $(document).on('click', ".reviewsubmit", function (event) {
     if ($(this).k_IsDisabled()) return;
@@ -325,12 +325,22 @@ $(document).on("click", ".dragdiv", function (event) {
         return;
     } else {
         if ($('.selected').length > 0) {
+            $('.selected').attr("aria-pressed","false");
+            $('.selected').each(function(){
+                if(Macos != -1 && isSafari && !(isIpad || isIphone)){
+                    $(this).attr("aria-label", $(this).attr("data-aria-label"));
+                }
+            })
             $('.selected').removeClass('selected').css("border", "none");
+            
         }
         $(this).css("border", "cornflowerblue solid 2px");
         $(this).addClass("selected");
 
         $(this).attr({ "aria-pressed": "true" })
+        if(Macos != -1 && isSafari && !(isIpad || isIphone)){
+            $(this).attr({"aria-label":$(this).attr("data-aria-label") +" selected"})
+        }
         // $('.droppable1 ').attr({ "aria-dropeffect": "move" })
         $(".droppable1,.droppable2,.droppable3 ").css("border", "cornflowerblue solid 2px");
     }
@@ -349,7 +359,7 @@ $(document).on("keyup", ".droppable1", function (event) {
 
 });
 
-$(document).on("click", ".droppable1", function (event) {
+$(document).on("click touchstart", ".droppable1", function (event) {
     if( $('.selected').length == 0)
     return;
     var pagedata = _Navigator.GetCurrentPage();
@@ -380,7 +390,7 @@ $(document).on("click", ".droppable1", function (event) {
 
 });
 
-$(document).on("mousedown", ".droppable2", function (event) {
+$(document).on("keyup", ".droppable2", function (event) {
     if (window.event) {
         key = window.event.keyCode;
     } else if (event) {
@@ -390,7 +400,7 @@ $(document).on("mousedown", ".droppable2", function (event) {
         $(this).trigger("click")
     }
 });
-$(document).on("click", ".droppable2", function (event) {
+$(document).on("click touchstart", ".droppable2", function (event) {
     if( $('.selected').length == 0)
         return;
     $('.selected').addClass("dropped");
@@ -411,4 +421,6 @@ $(document).on("click", ".droppable2", function (event) {
     $(".disabled").css("border", "none");
 
 });
+
+
 

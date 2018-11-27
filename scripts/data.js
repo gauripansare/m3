@@ -310,7 +310,7 @@ var _PData = {
                     heightPX: "32px",
                     topPX: "371px",
                     leftPX: "70.484375px",
-                    accessText: "USB flash drive (F:)",
+                    accessText: "USB flash drive F drive",
                     action: "next",
                     "GroupName": "grp9"
                 },
@@ -325,7 +325,7 @@ var _PData = {
                     topPX: "326px",
                     leftPX: "240.5px",
                     action: "next",
-                    accessText: "USB flash drive (F:)",
+                    accessText: "USB flash drive F drive",
                     eventName:"dblclick",
                     "GroupName": "grp9"
                 }

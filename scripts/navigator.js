@@ -315,8 +315,13 @@ var _Navigator = (function () {
             $("#linknext").k_enable();
             $(".start-btn").k_disable();
         }
-        if ((_currentPageObject.pageId == "p2") && (iOS || isSafari)) {
+       
+        if ((_currentPageObject.pageId == "p2") && (isIpad || isIphone || isSafari)) {
             $(".activityvideo").attr("controls", "true");
+        }
+        
+        if(Macos != -1 && isSafari && _currentPageObject.pageId == "p2" && !(isIpad || isIphone)){
+            $(".activityvideo").prop("muted","true");
         }
     }
     return {
@@ -405,6 +410,7 @@ var _Navigator = (function () {
                                 if (_Navigator.IsPresenterMode()) {
                                     _ModuleCommon.PresenterMode();
                                 }
+                               
                                 if(!_Navigator.IsAnswered() && _PData[_currentPageId].EmbedSettings !=undefined
                                     )
                                     {
@@ -476,21 +482,7 @@ var _Navigator = (function () {
              }
 
         },
-        LoadDefaultQuestion: function () {
-            if (_currentPageObject.questions.length > 0) {
-                _questionId = 0;
-                _currentPageObject.questions[0].isQuestionVisit = true;
-                for (var i = 0; i < _currentPageObject.questions.length; i++) {
-                    if (_currentPageObject.questions[i].isCurrent) {
-                        _questionId = i;
-                    }
-                }
-                //second parameter is to disable question effect.
-                _Question.Load(_currentPageObject.questions[_questionId], {
-                    disableEffect: true
-                });
-            }
-        },
+
         Prev: function () {
             if (_Navigator.IsRevel()) {
                 LifeCycleEvents.OnInteraction("Previous link click.")
@@ -538,7 +530,14 @@ var _Navigator = (function () {
                     $("#Summary").show();
                     $("#Questioninfo").hide();
                     $("#Summary").load("pagedata/Summary.htm", function () {
-                        _Assessment.ShowSummary()
+                        _Assessment.ShowSummary();
+
+                        if (isChrome && !isAndroid) {
+                            $("h2").focus();
+                        }
+                        else {
+                            $("#progressdiv").focus();
+                        }
                         $("#linkprevious").k_enable();
 
                     })
