@@ -38,6 +38,9 @@ var _Assessment = (function () {
 			}
 
 		},
+		SetCurrentQuestionIndex: function(questionIndex){
+			currentQuestionIndex = questionIndex;
+		},
 		Shuffle: function (array) {
 			var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -278,8 +281,6 @@ var _Assessment = (function () {
 				$("#ScoreSummary").text("Score: " + perscore + "%");
 			if (gRecordData.Status == "Started") {
 				gRecordData.Status = "Completed";
-				gRecordData.Score = score;
-				
 				this.SetScore(perscore);
 			}
 			if(_Navigator.IsPresenterMode())

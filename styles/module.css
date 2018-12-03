@@ -403,8 +403,9 @@
 #Summary .inpputtext{
    margin: 0px;
 }
-   /*Presenter Mode css start*/
-.presentationModeFooter {
+
+/*Presenter Mode css start*/
+.presentationModeFooter, .ScormReviewFooter {
     display: inline-block;
     background-color: #1a76cb;
     height: 29px;
