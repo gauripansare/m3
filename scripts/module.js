@@ -529,7 +529,7 @@ var _ModuleCommon = (function () {
             } else {
                 for (var i = 0; i < pageData.ImageHotSpots.Hotspots.length; i++) {
                     var posObj = pageData.ImageHotSpots.Hotspots[i];
-                    var _div = "<div class='reviewDiv Correct' style='z-index:5;width:39px;height:39px;position:absolute;left:" + posObj.left + ";top:" + posObj.top + ";'><img src='assets/images/review-correct.png' style='width:39px;height:35px;' /></div>";
+                    var _div = "<div class='reviewDiv Correct' style='z-index:5;width:35px;height:35px;position:absolute;left:" + posObj.left + ";top:" + posObj.top + ";'><img src='assets/images/review-correct.png' style='width:35px;height:30px;' /></div>";
                     $(".divHotSpot, .divHotSpotdbl").addClass("hotspotclicked");
                     $(".divHotSpot, .divHotSpotdbl").addClass("disabled");
                     appendImage.append(_div);

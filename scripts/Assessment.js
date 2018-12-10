@@ -106,9 +106,7 @@ var _Assessment = (function () {
 			else
 			{
 				$(".intro-content-question").fadeIn(600)
-			}
-
-			
+			}			
 			if (gRecordData.Status != "Completed") {
 				$("#linknext").k_disable();
 				if(currentQuestionIndex != 0)

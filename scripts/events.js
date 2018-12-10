@@ -191,7 +191,7 @@ $(document).on('click', ".startbtn", function (event) {
     if ($(this).k_IsDisabled()) return;
     
     _Navigator.Next();
-   // _Navigator.LoadPage("p13")
+    //_Navigator.LoadPage("p31")
 });
 $(document).on('click', ".reviewsubmit", function (event) {
     if ($(this).k_IsDisabled()) return;
