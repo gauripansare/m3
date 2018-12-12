@@ -1262,7 +1262,7 @@ var _ModuleCommon = (function () {
                                 var image = reviewData.Images[i];
                                 var arialabel;
                                 if (reviewData.Images[i].Positions[j].isCorrect == true) {
-                                    arialabel = "Correctly " + image.imageDetails.arialabel + " dropped in " + image.imageDetails.droppable;
+                                    arialabel = "Correct " + image.imageDetails.arialabel + " dropped in " + image.imageDetails.droppable;
 
                                     var _div = "<div class='reviewDiv' ><img src='assets/images/correct-icon.png' alt='' aria-hidden='true' style='width:20px;height:20px;left:0px;top:0px;position:absolute;' /></div>";
 
