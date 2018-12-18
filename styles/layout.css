@@ -168,6 +168,7 @@ header {
     height: auto;
     z-index: 10;
     margin-top: 8px;
+    position: relative;
 }
 
     #header-progress .progress, .header-content-dock .progress{
@@ -432,4 +433,8 @@ header {
 
 .closehintdoc{
     margin-right:10px;
+}
+
+.wrapper-img{
+    position: relative;
 }
