@@ -943,6 +943,7 @@ var _ModuleCommon = (function () {
                     if (ui.helper.data('rejected') === true) {
                         _ModuleCommon.AddDragReviewData(ui, false);
                         ui.helper.removeClass("rejected");
+                        $(ui.helper).css("z-Index", 4);
                     }
                 }
             });
@@ -1037,6 +1038,7 @@ var _ModuleCommon = (function () {
                 },
                 stop: function (event, ui) {
                     if (ui.helper.data('rejected') === true) {
+                        $(ui.helper).css("z-Index", 4);
                         _ModuleCommon.AddDragReviewData(ui, false);
                     }
                 }
@@ -1088,6 +1090,7 @@ var _ModuleCommon = (function () {
                 },
                 stop: function (event, ui) {
                     if (ui.helper.data('rejected') === true) {
+                        $(ui.helper).css("z-Index", 4);
                         _ModuleCommon.AddDragReviewData(ui, false);
                     }
                 }
@@ -1137,6 +1140,7 @@ var _ModuleCommon = (function () {
                 },
                 stop: function (event, ui) {
                     if (ui.helper.data('rejected') === true) {
+                        $(ui.helper).css("z-Index", 4);
                         $(".droppable1,.droppable2,.droppable3 ").css({ "border": "none" });
                         _ModuleCommon.AddDragReviewData(ui, false);
                     }
