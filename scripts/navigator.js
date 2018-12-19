@@ -314,12 +314,12 @@ var _Navigator = (function () {
         _ModuleCommon.OnPageLoad();
         if (_Navigator.IsPresenterMode()) {
             $("#linknext").k_enable();
-            $(".start-btn").k_disable();
+            $(".startbtn").k_disable();
         }
         
         if (_Navigator.IsReviewMode()) {
             $("#linknext").k_enable();
-            $(".start-btn").k_disable();
+            $(".startbtn").k_disable();
         }
         if (_Navigator.IsPresenterMode() || _Navigator.IsReviewMode()) {
             if(isIphone || isAndroid){
