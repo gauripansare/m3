@@ -321,6 +321,11 @@ var _Navigator = (function () {
             $("#linknext").k_enable();
             $(".start-btn").k_disable();
         }
+        if (_Navigator.IsPresenterMode() || _Navigator.IsReviewMode()) {
+            if(isIphone || isAndroid){
+                $("#header-progress .presentationModeFooter").hide();                        
+            }
+        }
         
        
         if ((_currentPageObject.pageId == "p2") && (isIpad || isIphone || isSafari)) {
@@ -415,7 +420,11 @@ var _Navigator = (function () {
                         $("footer").show();
                         $("#linknext").k_enable();
                     }
-                  
+                    if (_Navigator.IsReviewMode()) {
+                        $(".wrapper-img").prepend('<div class="presentationModeFooter" >Review Mode</div>')
+                        $("footer").show();
+                        $("#linknext").k_enable();
+                    }
                 });
             } else {
                 $(".main-content").fadeTo(250, 0.25, function () {

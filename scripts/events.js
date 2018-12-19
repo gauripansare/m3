@@ -188,10 +188,11 @@ $(document).on('click', ".activityimg", function (event) {
 
 
 $(document).on('click', ".startbtn", function (event) {
-    if ($(this).k_IsDisabled()) return;
-    //_Navigator.LoadPage("p13")
+    if ($(this).k_IsDisabled())
+     return;
     _Navigator.Next();
 });
+
 $(document).on('click', ".reviewsubmit", function (event) {
     if ($(this).k_IsDisabled()) return;
     _Navigator.Next();
@@ -301,7 +302,7 @@ window.addEventListener("scroll", function () {
     {
         $(".hintdoc").parent().show();
     }
-    if(_Navigator.IsPresenterMode())
+    if(_Navigator.IsPresenterMode() || _Navigator.IsReviewMode())
     {
         $(".header-content-dock").find(".presentationModeFooter").show();
         $(".header-content-dock .intro-content").css({"margin-top":"30px"})
