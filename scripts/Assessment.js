@@ -292,7 +292,7 @@ var _Assessment = (function () {
 			$("h2").focus();
 		},
 		SetScore: function (perscore) {
-			if (_Navigator.IsScorm()) {
+			if (_Navigator.IsScorm() && !_Navigator.IsReviewMode()) {
 				_ScormUtility.SetScore(perscore);
 				_ScormUtility.Scormcomplete()
 			}
