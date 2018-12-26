@@ -383,7 +383,7 @@ var _ModuleCommon = (function () {
                 return;
             }
             var fname = "";
-            var pagereviewdata
+            var pagereviewdata = "";
             if (reviewData != undefined && reviewData.length > 0) {
                 for (var i = 0; i < reviewData.length; i++) {
                     if (reviewData[i].pageId == basepageid) {
