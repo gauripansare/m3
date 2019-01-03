@@ -3,9 +3,6 @@ var hotspot;
 var touchend = false;
 var touchend1 = false;
 $(document).on("click", ".divHotSpot", function (event) {
-    if (_Navigator.IsPresenterMode()) {
-        return;
-    }
     event.preventDefault();
     $(this).k_disable()
     if (hotspotclicked || _Navigator.IsAnswered())
@@ -23,9 +20,6 @@ $(document).on("click", ".divHotSpot", function (event) {
 
 
 $(document).on("dblclick", ".divHotSpotdbl", function (event) {
-    if (_Navigator.IsPresenterMode()) {
-        return;
-    }
     if ($(this).attr("disabled") || $(this).hasClass("disabled")) {
         event.preventDefault();
         return;
@@ -45,9 +39,6 @@ $(document).on("dblclick", ".divHotSpotdbl", function (event) {
     }
 });
 $(document).on("keyup", ".divHotSpotdbl", function (event) {
-    if (_Navigator.IsPresenterMode()) {
-        return;
-    }
     if ($(this).attr("disabled") || $(this).hasClass("disabled")) {
         event.preventDefault();
         return;

@@ -488,7 +488,7 @@ var _ModuleCommon = (function () {
             }
         },
         PresenterMode: function () {
-
+            /*
             if ($("#div_feedback").length > 0) {
                 $("#div_feedback").hide();
 
@@ -546,11 +546,11 @@ var _ModuleCommon = (function () {
                     })
 
                 }
-            }
-
-            $("#linknext").k_enable();
+            }            
             _Navigator.SetPageStatus(true);
             _Navigator.UpdateProgressBar();
+            */
+           $("#linknext").k_enable();
         },
         presentermodep8: function () {
             var top = $(".droppable1").position().top + 5;
