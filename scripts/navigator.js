@@ -315,7 +315,7 @@ var _Navigator = (function () {
         _ModuleCommon.OnPageLoad();
         if (_Navigator.IsPresenterMode()) {
             $("#linknext").k_enable();
-            $(".startbtn").k_disable();
+           // $(".startbtn").k_disable();
         }
         
         if (_Navigator.IsReviewMode()) {
