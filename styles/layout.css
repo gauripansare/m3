@@ -80,7 +80,7 @@ div, p, span, input {
 a:focus, input:focus, button:focus, textarea:focus, select:focus, a:active, input:active, 
 button:active, textarea:active, select:active,
  .questioninnerwrapper input[type="radio"]:focus + .inputcircle::after,
- #Summary input[type="radio"]:focus + .inputcircle::after {
+ #Summary input[type="radio"]:focus + .inputcircle::after, input[type="radio"]:focus + label {
     outline: #ff8c00 auto 3px;
 }
 

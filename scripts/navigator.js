@@ -1,7 +1,7 @@
 ﻿//This api will contain navigation logic and page load.
 //It will also handle the question navigation if the page is having multiple questions.
 var _Navigator = (function () {
-    var packageType = "presenter";//presenter/scorm/revel
+    var packageType = "";//presenter/scorm/revel
     var isReviewMode = false;
     var _currentPageId = "";
     var _currentPageObject = {};
@@ -326,7 +326,7 @@ var _Navigator = (function () {
             $("input[type='text']").k_disable();
             $(".divHotSpot ").k_disable();
             $("#linknext").k_enable();
-            $(".startbtn").k_disable();
+            $(".startbtn").link_k_disable();
         }
         if (_Navigator.IsPresenterMode() || _Navigator.IsReviewMode()) {
             if(isIphone || isAndroid){
@@ -339,9 +339,16 @@ var _Navigator = (function () {
             $(".activityvideo").attr("controls", "true");
         }
         
-        if(Macos != -1 && isSafari && _currentPageObject.pageId == "p2" && !(isIpad || isIphone)){
-            $(".activityvideo").prop("muted","true");
+        if(Macos != -1 && isSafari && !(isIpad || isIphone)){
+            if(_currentPageObject.pageId == "p2"){
+                $(".activityvideo").prop("muted","true");
+            }
+            if(_currentPageObject.pageId == "p15" || _currentPageObject.pageId == "p21" || _currentPageObject.pageId == "p27"){
+                $("#droppable1 span").hide();
+                $("#droppable2 span").hide();
+            }
         }
+        
     }
     return {
         Get: function () {

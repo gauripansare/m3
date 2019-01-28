@@ -3,6 +3,7 @@ var hotspot;
 var touchend = false;
 var touchend1 = false;
 $(document).on("click", ".divHotSpot", function (event) {
+    if ($(this).k_IsDisabled()) return;
     event.preventDefault();
     $(this).k_disable()
     if (hotspotclicked || _Navigator.IsAnswered())
@@ -73,7 +74,7 @@ $(document).on("click", "#linknext", function (event) {
     _Navigator.Next();
 });
 $(document).on("click", ".hintdoc", function (event) {
-    debugger;
+    if ($(this).k_IsDisabled()) return;
     if ($(this).hasClass("hintdoc")) {
         if ($(this).hasClass("expanded")) {
             $(this).removeClass("expanded")

@@ -34,6 +34,9 @@ jQuery.fn.extend({
         }
         return;
     },
+    link_k_disable: function() {
+        return this.addClass('disabled').attr("aria-disabled","true");
+    },
     k_IsDisabled: function () {
         if (this.hasClass('disabled')) { return true; } else { return false; }
     }
