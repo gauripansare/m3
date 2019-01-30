@@ -344,8 +344,8 @@ var _Navigator = (function () {
                 $(".activityvideo").prop("muted","true");
             }
             if(_currentPageObject.pageId == "p15" || _currentPageObject.pageId == "p21" || _currentPageObject.pageId == "p27"){
-                $("#droppable1 span").hide();
-                $("#droppable2 span").hide();
+                $("#droppable1 span").attr("aria-hidden","true");
+                $("#droppable2 span").attr("aria-hidden","true");
             }
         }
         
@@ -517,7 +517,7 @@ if (Summarybookmark) {
                             }
                             else {
                                 _Assessment.ShowQuestion();
-                                $("h2.pageheading").attr("tabindex", "0");
+                                $("h2.pageheading").attr("tabindex", "-1");
                                 $("h2").focus();
                             }
 
